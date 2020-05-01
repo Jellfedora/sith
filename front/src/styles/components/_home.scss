@@ -1,0 +1,64 @@
+.home {
+    // margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+    // align-content: center;
+
+    & a {
+        height: 15em;
+        width: 15em;
+        background-color: $color-blue;
+        border: 4px solid $color-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        border-radius: 30px;
+        transition-duration: 0.2s;
+
+        & span {
+            font-size: 2em;
+            font-weight: bold;
+        }
+    }
+
+    & a:hover {
+        height: 16em;
+        width: 16em;
+    }
+
+    & a:focus {
+        height: 16em;
+        width: 16em;
+    }
+
+    &__link {
+        &__music {
+            background-image: url('../../ressources/images/music-background.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        &__galery {
+            background-image: url('../../ressources/images/galerie-background.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        &__option {
+            background-image: url('../../ressources/images/option-background.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        &__home {
+            background-image: url('../../ressources/images/home-background.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+    }
+}
