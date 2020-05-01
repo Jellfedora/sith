@@ -1,0 +1,45 @@
+.navigation {
+    // background: url('../../ressources/images/app-background.jpg');
+    // background-size: cover;
+    // background-position: center;
+    // background-repeat: no-repeat;
+    background-color: $color-dark;
+    min-height: 100vh;
+    max-width: 100%;
+    color: $color-white;
+    height: 100vh;
+
+    &__header {
+        background-color: $color-dark;
+        height: 3em;
+        // border-bottom: 4px solid $color-blue;
+        // border-bottom-left-radius: 20px;
+        // border-bottom-right-radius: 20px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        border-bottom: 4px solid $color-red;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+
+        // padding-top: 1em;
+        &__title {
+            color: $color-white;
+            display: flex;
+            justify-content: space-around;
+            width: 15em;
+            padding-top: 0.5em;
+
+            & span {
+                line-height: 2.7em;
+            }
+        }
+    }
+
+    &__content {
+        height: 100%;
+    }
+}
