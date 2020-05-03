@@ -1,0 +1,46 @@
+.connexion {
+    margin-top: 5em;
+    color: $color-white;
+
+    &__content {
+        padding: 1em;
+        text-align: center;
+
+        &__title {
+            font-size: 1.2em;
+        }
+
+        &__form {
+            margin-top: 2em;
+
+            &__formgroup {
+
+                &__id,
+                &__password {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-bottom: 1em;
+
+                    & label,
+                    & input {
+                        width: 100%;
+                        margin: 0.5em
+                    }
+
+                    & label {
+                        text-transform: uppercase;
+                    }
+                }
+            }
+
+            &__error {
+                margin-top: 1em;
+                color: $color-red;
+            }
+        }
+
+        &__message {
+            margin-top: 2em;
+        }
+    }
+}
