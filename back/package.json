@@ -1,22 +1,37 @@
 {
-  "name": "sith-back",
-  "version": "1.0.0",
-  "description": "The back end of Sith App",
-  "main": "app/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Jellfedora",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "body-parser": "^1.19.0",
-    "castv2-client": "^1.2.0",
-    "chromecast-api": "^0.3.3",
-    "chromecast-player": "^0.2.3",
-    "express": "^4.17.1",
-    "findit": "^2.0.0",
-    "inquirer": "^7.1.0",
-    "mongoose": "^5.9.10"
-  }
+    "name": "sith",
+    "version": "1.0.0",
+    "description": "A définir",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "ts-node ./src/index.ts",
+        "devwatch": "ts-node-dev --respawn ./src/index.ts",
+        "build": "tsc",
+        "start": "node ./dist/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Jellfedora",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "chromecast-player": "^0.2.3",
+        "cors": "^2.8.5",
+        "dotenv": "^8.0.0",
+        "express": "^4.16.4",
+        "mongodb": "^3.2.4",
+        "mongoose": "^5.5.7",
+        "pug": "^2.0.3",
+        "ts-node": "^8.1.0",
+        "typescript": "^3.4.3"
+    },
+    "devDependencies": {
+        "@types/body-parser": "^1.17.0",
+        "@types/dotenv": "^6.1.1",
+        "@types/express": "^4.16.1",
+        "@types/mongodb": "^3.1.26",
+        "@types/mongoose": "^5.5.0",
+        "@types/node": "^11.13.5",
+        "@types/pug": "^2.0.4",
+        "ts-node-dev": "^1.0.0-pre.32"
+    }
 }
