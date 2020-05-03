@@ -8,6 +8,14 @@ import {
 } from "react-router-dom";
 import Home from '../Home';
 import Music from '../Music';
+import Video from '../Video';
+import VideoDetail from '../VideoDetail';
+import ServerIsDown from '../ServerIsDown';
+import App from '../App';
+import Authentificator from "../Authentificator";
+import axios from 'axios';
+
+const apiUrl = process.env.REACT_APP_REST_API;
 
 class Navigation extends Component {
     constructor(props) {
@@ -16,15 +24,55 @@ class Navigation extends Component {
         };
     }
 
-    clic = (status) => {
-        const action = { type: "CLICK", value: status }
-        this.props.dispatch(action)
+    componentDidMount() {
+
+        this.getServerStatus();
+    }
+
+    componentDidUpdate() {
+    }
+
+    getServerStatus = () => {
+        console.log('ici')
+        axios.get(apiUrl + 'start'
+        )
+            .then(response => {
+                const action = { type: "SERVER_IS_START", value: true }
+                this.props.dispatch(action)
+            })
+            .catch(error => {
+                const action = { type: "SERVER_IS_START", value: false }
+                this.props.dispatch(action)
+            });
+
     }
 
     render() {
+        let render;
+        console.log(this.props.isConnect)
+        if (!this.props.serverIsDown) {
+            render = <ServerIsDown />
+        } else if (!this.props.isConnect) {
+            render = <Authentificator />
+        } else {
+            render =
+                <Switch>
+                    <Route path="/video-detail" component={App}>
+                        <VideoDetail />
+                    </Route>
+                    <Route path="/video">
+                        <Video />
+                    </Route>
+                    <Route path="/music">
+                        <Music />
+                    </Route>
+                    <Route path="/">
+                        <Home />
+                    </Route>
+                </Switch>
+        }
         return (
             <div className="navigation">
-                {/* <div className="navigation__content"> */}
                 <Router>
                     <div className="navigation__header">
                         <Link className="navigation__header__title" to="/">
@@ -32,17 +80,9 @@ class Navigation extends Component {
                             <span>By Jellfedora</span>
                         </Link>
                     </div>
+                    {render}
 
-                    <Switch>
-                        <Route path="/music">
-                            <Music />
-                        </Route>
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                    </Switch>
                 </Router >
-                {/* </div> */}
             </div>
         );
     }
@@ -55,7 +95,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        // isStart: state.home.isStart,
+        serverIsDown: state.server.isStart,
+        isConnect: state.user.isConnect,
+        userRole: state.user.role,
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

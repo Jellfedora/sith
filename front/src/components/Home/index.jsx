@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
     Link
 } from "react-router-dom";
+import axios from 'axios';
 
 class Home extends Component {
     constructor(props) {
@@ -11,22 +12,44 @@ class Home extends Component {
         };
     }
 
-
     render() {
+        let levelAccess;
+        console.log(this.props.userRole)
+        if (this.props.userRole === 3) {
+            levelAccess =
+                <div className="home__links">
+                    <Link className="home__links__link" to="/music">
+                        <span>Musiques</span>
+                    </Link>
+                    <Link className="home__links__link" to="/music">
+                        <span>Todo Galerie</span>
+                    </Link>
+                    <Link className="home__links__link" to="/video-detail">
+                        <span>Todo Réglages</span>
+                    </Link>
+                </div>
+        } else if (this.props.userRole === 2) {
+            levelAccess =
+                <div className="home__links">
+                    <Link className="home__links__link" to="/music">
+                        <span>Musiques</span>
+                    </Link>
+                    <Link className="home__links__link" to="/music">
+                        <span>Todo Galerie</span>
+                    </Link>
+                </div>
+        }
+        else {
+            levelAccess = ""
+        }
         return (
             <div className="home">
-                <Link className="home__link__home" to="/">
-                    <span>Vidéos</span>
-                </Link>
-                <Link className="home__link__music" to="/music">
-                    <span>Musiques</span>
-                </Link>
-                <Link className="home__link__galery" to="/music">
-                    <span>Galerie</span>
-                </Link>
-                <Link className="home__link__option" to="/music">
-                    <span>Réglages</span>
-                </Link>
+                <div className="home__links">
+                    <Link className="home__links__link" to="/video">
+                        <span>Vidéos</span>
+                    </Link>
+                    {levelAccess}
+                </div>
             </div >
         );
     }
@@ -39,7 +62,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isStart: state.home.isStart,
+        userRole: state.user.role,
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
