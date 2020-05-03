@@ -1,0 +1,17 @@
+.server-down {
+    margin-top: 5em;
+    color: $color-white;
+
+    &__content {
+        padding: 1em;
+        text-align: center;
+
+        &__title {
+            font-size: 1.2em;
+        }
+
+        &__message {
+            margin-top: 2em;
+        }
+    }
+}
