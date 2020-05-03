@@ -8,13 +8,12 @@
     max-width: 100%;
     color: $color-white;
     height: 100vh;
+    overflow: hidden;
 
     &__header {
         background-color: $color-dark;
-        height: 3em;
-        // border-bottom: 4px solid $color-blue;
-        // border-bottom-left-radius: 20px;
-        // border-bottom-right-radius: 20px;
+        height: 6vh;
+        min-height: 3em;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -25,7 +24,6 @@
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
 
-        // padding-top: 1em;
         &__title {
             color: $color-white;
             display: flex;
