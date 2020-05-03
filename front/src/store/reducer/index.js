@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import home from './home-reducer';
+import server from './server-reducer';
+import user from './user-reducer';
 
 const rootReducer = combineReducers({
-    home,
+    server,
+    user
 });
 
 export default rootReducer;
