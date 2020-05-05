@@ -24,8 +24,8 @@ class Home extends Component {
                     <Link className="home__links__link" to="/music">
                         <span>Todo Galerie</span>
                     </Link>
-                    <Link className="home__links__link" to="/video-detail">
-                        <span>Todo Réglages</span>
+                    <Link className="home__links__link" to="/admin">
+                        <span>Administration</span>
                     </Link>
                 </div>
         } else if (this.props.userRole === 2) {

@@ -13,6 +13,7 @@ import VideoDetail from '../VideoDetail';
 import ServerIsDown from '../ServerIsDown';
 import App from '../App';
 import Authentificator from "../Authentificator";
+import Administration from "../Administration";
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_REST_API;
@@ -57,6 +58,9 @@ class Navigation extends Component {
         } else {
             render =
                 <Switch>
+                    <Route path="/admin">
+                        <Administration />
+                    </Route>
                     <Route path="/video-detail" component={App}>
                         <VideoDetail />
                     </Route>
@@ -66,6 +70,7 @@ class Navigation extends Component {
                     <Route path="/music">
                         <Music />
                     </Route>
+
                     <Route path="/">
                         <Home />
                     </Route>
