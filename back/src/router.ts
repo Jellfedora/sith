@@ -1,5 +1,6 @@
 import express from 'express';
 
+import AuthController from './controllers/authController';
 import MainController from './controllers/mainController';
 
 const router: express.Router = express.Router();
@@ -25,6 +26,9 @@ router.get(`/api/get-folder-songs/:key`, MainController.getFolderSongs);
 router.get(`/api/play/:repertory/:song`, MainController.getMusicStreaming);
 router.get(`/api/get-folder-videos`, MainController.getFolderVideos);
 router.get(`/api/video/:key`, MainController.getVideoStreaming);
-router.post(`/api/login`, MainController.postLogin);
+
+router.get(`/api/get-all-users`, AuthController.getAllUsers);
+router.post(`/api/login`, AuthController.login);
+router.post(`/api/register`, AuthController.register);
 
 export default router;

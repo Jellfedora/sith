@@ -69,42 +69,6 @@ export default class MainController {
         response.render('trainers', { trainers });
     }
 
-    // Vérifie les identifiants pour la connexion
-    static async postLogin(request: Request, response: Response) {
-        var identifiant = request.body.identifiant;
-        var password = request.body.password;
-        console.log('Demande de connexion de :' + identifiant);
-        console.log('Password :' + password);
-        // TODO!!!
-
-        let data = {
-            'identifiant': identifiant,
-            'role': 0
-        };
-
-        if (identifiant === process.env.IDENTIFIANT3 && password === process.env.PASSWORD3 || identifiant === process.env.IDENTIFIANT4 && password === process.env.PASSWORD4) {
-            data = {
-                'identifiant': identifiant,
-                'role': 1
-            };
-            return response.status(200).json(data);
-        } else if (identifiant === process.env.IDENTIFIANT2 && password === process.env.PASSWORD2) {
-            data = {
-                'identifiant': identifiant,
-                'role': 2
-            };
-            return response.status(200).json(data);
-        } else if (identifiant === process.env.IDENTIFIANT1 && password === process.env.PASSWORD1) {
-            data = {
-                'identifiant': identifiant,
-                'role': 3
-            };
-            return response.status(200).json(data);
-        } else {
-            return response.status(403).json('nope');
-        }
-    }
-
     // Vérifie que le disque externe est accessible
     static async apiIsStart(request: Request, response: Response) {
         let videoFolder = process.env.VIDEO_PATH;
