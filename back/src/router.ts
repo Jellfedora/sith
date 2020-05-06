@@ -30,5 +30,6 @@ router.get(`/api/video/:key`, MainController.getVideoStreaming);
 router.get(`/api/get-all-users`, AuthController.getAllUsers);
 router.post(`/api/login`, AuthController.login);
 router.post(`/api/register`, AuthController.register);
+router.delete(`/api/delete/:key`, AuthController.delete);
 
 export default router;

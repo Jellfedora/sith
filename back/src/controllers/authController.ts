@@ -33,7 +33,6 @@ export default class AuthController {
         const getUser = await User.findOne({ name: identifiant });
         // const allUsers: Array<IUser> = await User.find();
         if (getUser) {
-            console.log(getUser)
             bcrypt.compare(password, getUser.password, function (err, result) {
                 // result == true
                 // console.log(result)
@@ -65,5 +64,27 @@ export default class AuthController {
                 });
             });
         });
+    }
+
+    static async delete(request: Request, response: Response) {
+
+        var identifiant = request.params.key;;
+        console.log(identifiant);
+
+        const getUser = await User.findOne({ name: identifiant });
+        if (getUser) {
+            getUser.remove((err, user) => {
+                if (err) {
+                    throw err;
+                } else {
+                    console.log(getUser.name + ' supprimé');
+                    return response.status(200).json(getUser.name + ' supprimé');
+                }
+            });
+
+
+        } else {
+            return response.status(403).json('Aucun utilisateur trouvé');
+        }
     }
 }

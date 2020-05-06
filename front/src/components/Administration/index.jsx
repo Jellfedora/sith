@@ -13,11 +13,16 @@ class Administration extends Component {
             role: 1,
             validId: null,
             validPassword: null,
-            connexionError: false
+            connexionError: false,
+            users: [],
+            selectUserToDelete: undefined,
+            userDeleteMessage: false,
+            userDeleteColor: undefined
         };
     }
 
     componentDidMount() {
+        this.getUsers();
     }
 
     componentDidUpdate() {
@@ -56,7 +61,48 @@ class Administration extends Component {
             });
     }
 
+    getUsers = () => {
+        axios.get(apiUrl + 'get-all-users'
+        )
+            .then(response => {
+                console.log(response)
+                this.setState({ users: response.data });
+            })
+            .catch(error => {
+            });
+    }
+
+    selectUserToDelete = (event) => {
+        this.setState({ selectUserToDelete: event.target.value });
+    }
+
+    handleSubmitDeleteUser = (event) => {
+        event.preventDefault();
+        axios.delete(apiUrl + 'delete/' + this.state.selectUserToDelete)
+            .then(response => {
+                console.log(response)
+                this.setState({ userDeleteMessage: response.data, userDeleteColor: 'green' });
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({ userDeleteMessage: 'Une erreur est arrivée', userDeleteColor: 'red' });
+            });
+    }
+
     render() {
+        const usersName = this.state.users.map((item, i) => {
+            return (
+                // <Link className="video__content__video-info" to={'/video-detail/' + item.title} key={i}>
+                //     < img src={item.poster_path} alt="film-photo" className="video__content__video-info__img" />
+                //     <div className="video__content__video-info__text">
+                //         <span className="video__content__video-info__text__title">{item.title}</span>
+                //         <p className="video__content__video-info__text__overview">{item.overview.substr(0, 250)}</p>
+                //         <span className="video__content__video-info__text__vote">Note Tmdb: {item.vote_average} / 10</span>
+                //     </div>
+                // </Link >
+                <option value={item.name} key={i}>{item.name}</option>
+            );
+        });
         return (
             <div className="connexion">
                 <div className="connexion__content">
@@ -90,7 +136,36 @@ class Administration extends Component {
                         </div>
                     </form>
                 </div>
-            </div>
+                <hr />
+                <div className="connexion__content">
+                    <h2 className="connexion__content__title">Supprimer utilisateur</h2>
+                    <form className="connexion__content__form">
+                        <div className="connexion__content__form__formgroup__id">
+                            <label htmlFor="exampleInputId"> Identifiant
+                            </label>
+                            <select name="users"
+                                style={{
+                                    width: '100%',
+                                    height: '2em'
+                                }}
+                                onChange={this.selectUserToDelete} value={this.state.selectUserToDelete}>
+                                {usersName}
+                            </select>
+                        </div>
+                        <div className="connexion__content__form__submit">
+
+                            <button className="btn btn-primary" onClick={this.handleSubmitDeleteUser}>
+                                Valider
+                            </button>
+                        </div>
+                        <div className="connexion__content__form__error">
+                            {this.state.userDeleteMessage &&
+                                <p style={{ color: this.state.userDeleteColor }}>{this.state.userDeleteMessage}</p>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div >
         );
     }
 }

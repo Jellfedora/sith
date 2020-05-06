@@ -37,7 +37,10 @@ app.use(cors({
     }
 }));
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 //routing
 app.use(router);
 
