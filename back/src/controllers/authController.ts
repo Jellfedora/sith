@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import dotenv from 'dotenv';
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
+var hash = bcrypt.hashSync("B4c0/\/", salt);
 
 dotenv.config();
 
@@ -35,7 +36,7 @@ export default class AuthController {
             console.log(getUser)
             bcrypt.compare(password, getUser.password, function (err, result) {
                 // result == true
-                console.log(result)
+                // console.log(result)
                 return response.status(200).json(getUser);
             });
 
@@ -46,39 +47,23 @@ export default class AuthController {
 
     static async register(request: Request, response: Response) {
 
-        bcrypt.hash(request.body.password, saltRounds, function (err, hash) {
-            // Store hash in your password DB.
-            const newUser: IUser = new User({
-                name: request.body.identifiant,
-                password: hash,
-                role: request.body.role
-            });
-            // save user
-            newUser.save((err, user) => {
-                if (err) {
-                    throw err;
-                } else {
-                    console.log(newUser.name + ' enregistré');
-                    response.json(newUser.name + ' enregistré!');
-                }
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(request.body.password, salt, function (err, hash) {
+                // Store hash in your password DB.
+                const newUser: IUser = new User({
+                    name: request.body.identifiant,
+                    password: hash,
+                    role: request.body.role
+                });
+                newUser.save((err, user) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        console.log(newUser.name + ' enregistré');
+                        response.json(newUser.name + ' enregistré!');
+                    }
+                });
             });
         });
-
-        // MANUEL
-        // bcrypt.hash('mdpTest', saltRounds, function (err, hash) {
-        //     const newUser: IUser = new User({
-        //         name: 'identifiantTest',
-        //         password: hash,
-        //     });
-        //     // save user
-        //     newUser.save((err, user) => {
-        //         if (err) {
-        //             throw err;
-        //         } else {
-        //             console.log(user)
-        //             response.json(newUser.name + ' enregistré!');
-        //         }
-        //     });
-        // });
     }
 }
