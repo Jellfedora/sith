@@ -74,7 +74,7 @@ export default class VideoController {
                 if (err) {
                     throw err;
                 } else {
-                    console.log(newFilm.title + ' enregistré');
+                    console.log(newFilm.media_name + ' enregistré');
                 }
             });
         })
@@ -119,6 +119,17 @@ export default class VideoController {
         //         response.json(filmUpdated.title + ' enregistré!');
         //     }
         // });
+    }
+
+    // Récupére tout les films de la base de données
+    static async adminGetAllFilms(request: Request, response: Response) {
+        const allFilms: Array<IFilm> = await Film.find();
+
+        // allFilms.forEach((film) => {
+        // });
+
+        console.log(allFilms);
+        response.json(allFilms);
     }
 
     // Récupére tout les films de la base de données

@@ -38,6 +38,7 @@ class Administration extends Component {
         )
             .then(response => {
                 console.log(response)
+                this.getMedia()
             })
             .catch(error => {
                 console.log(error)
@@ -45,9 +46,10 @@ class Administration extends Component {
     }
 
     getMedia = () => {
-        axios.get(apiUrl + 'all-films'
+        axios.get(apiUrl + 'admin-all-films'
         )
             .then(response => {
+                console.log(response)
                 response.data.map((item, i) => {
                     let filmDetail = {
                         'media_name': item.media_name,

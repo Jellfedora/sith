@@ -37,5 +37,6 @@ router.get(`/api/check-films`, VideoController.checkFilms);
 router.post(`/api/add-film`, VideoController.addFilm);
 router.get(`/api/all-films`, VideoController.getAllFilms);
 router.get(`/api/one-film/:key`, VideoController.getOneFilm);
+router.get(`/api/admin-all-films`, VideoController.adminGetAllFilms);
 
 export default router;
