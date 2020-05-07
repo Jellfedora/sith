@@ -68,7 +68,7 @@ export default class AuthController {
 
     static async delete(request: Request, response: Response) {
 
-        var identifiant = request.params.key;;
+        var identifiant = request.params.key;
         console.log(identifiant);
 
         const getUser = await User.findOne({ name: identifiant });

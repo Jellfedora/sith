@@ -44,20 +44,25 @@ app.use(bodyParser.urlencoded({
 //routing
 app.use(router);
 
-
 //1. se connecter à la DB
-mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true, dbName: 'sith' }, (err) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
+mongoose.connect(process.env.MONGODB_URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    dbName: 'sith',
+    useFindAndModify: false
+},
+    (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
 
-    console.log('mongoose connected');
-    //2. lancer l'appli
-    app.listen(PORT, () => {
-        console.log(`App running on port ${PORT}`);
+        console.log('mongoose connected');
+        //2. lancer l'appli
+        app.listen(PORT, () => {
+            console.log(`App running on port ${PORT}`);
+        });
     });
-});
 
 // app.listen(PORT, () => {
 //     console.log(`App running on port ${PORT}`);
