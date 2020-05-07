@@ -30,7 +30,6 @@ class Administration extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state)
     }
 
     refresh = (event) => {
@@ -46,6 +45,7 @@ class Administration extends Component {
     }
 
     getMedia = () => {
+        this.setState({ medias: [] })
         axios.get(apiUrl + 'admin-all-films'
         )
             .then(response => {
@@ -67,7 +67,7 @@ class Administration extends Component {
     }
 
     selectedMedia = (event) => {
-        this.setState({ selectedMedia: event.target.value });
+        this.setState({ selectedMedia: event.target.value, filmTitle: event.target.value });
     }
 
     handleFilmTitleChange = (e) => {
