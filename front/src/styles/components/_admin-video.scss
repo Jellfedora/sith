@@ -1,0 +1,57 @@
+.admin-video {
+    padding-top: 3.5em;
+
+    &__content {
+        overflow: scroll;
+        height: 95vh;
+
+        &__title {
+            text-align: center;
+            font-weight: bold;
+            margin: 1em;
+        }
+
+        &__form {
+            padding: 1em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            &__input-search {
+                width: 100%;
+                margin-bottom: 1em;
+
+                &__input {
+                    height: 1.5em;
+                    margin: 0 auto;
+                    display: block;
+                }
+            }
+
+            &__submit {
+                text-align: center;
+            }
+        }
+
+        &__search-results {
+            overflow-y: scroll;
+            height: 65vh;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        &__message-status {
+            text-align: center;
+            margin-top: 2em;
+        }
+
+        &__selected-film {
+            &__player {
+                padding-bottom: 3em;
+            }
+        }
+    }
+
+}

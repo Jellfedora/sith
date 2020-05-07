@@ -33,7 +33,7 @@ class Administration extends Component {
                 <Link className="admin__link" to="/admin/users">
                     <span>Gestion Utilisateurs</span>
                 </Link>
-                <Link className="admin__link" to="/music">
+                <Link className="admin__link" to="/admin/videos">
                     <span>Gestion Vidéos</span>
                 </Link>
             </div >

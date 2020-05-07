@@ -14,6 +14,7 @@ import ServerIsDown from '../ServerIsDown';
 import App from '../App';
 import Authentificator from "../Authentificator";
 import Administration from "../Administration";
+import VideoAdmin from '../VideoAdmin';
 import Users from '../Users';
 import axios from 'axios';
 
@@ -59,6 +60,9 @@ class Navigation extends Component {
         } else {
             render =
                 <Switch>
+                    <Route path="/admin/videos">
+                        <VideoAdmin />
+                    </Route>
                     <Route path="/admin/users">
                         <Users />
                     </Route>

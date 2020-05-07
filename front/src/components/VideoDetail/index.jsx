@@ -25,27 +25,39 @@ class VideoDetail extends Component {
     }
 
     getVideoInfo = (filmTitle) => {
-        // Tmdb test
-        console.log(filmTitle)
-        const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + filmTitle
-        axios.get(url
+        // axios.get(url
+        // )
+        //     .then(response => {
+        //         let filmDetail = {
+        //             'title': filmTitle,
+        //             'overview': response.data.results[0].overview,
+        //             'poster_path': "https://image.tmdb.org/t/p/w300" + response.data.results[0].poster_path,
+        //             'vote_average': response.data.results[0].vote_average,
+        //         }
+        //         // selectVideo.push(filmDetail)
+        //         this.setState({ selectVideo: filmDetail })
+        //         console.log(this.state.selectVideo)
+        //     })
+        //     .catch(error => {
+        //         // this.setState({ loadSpinner: false });
+        //     });
+        axios.get(apiUrl + 'one-film/' + filmTitle
         )
             .then(response => {
                 let filmDetail = {
-                    'title': filmTitle,
-                    'overview': response.data.results[0].overview,
-                    'poster_path': "https://image.tmdb.org/t/p/w300" + response.data.results[0].poster_path,
-                    'vote_average': response.data.results[0].vote_average,
+                    'title': response.data.title,
+                    'overview': response.data.overview,
+                    'poster_path': response.data.poster_path,
+                    'vote_average': response.data.vote_average,
+                    'media_name': response.data.media_name,
+                    'release_date': response.data.release_date
                 }
                 // selectVideo.push(filmDetail)
                 this.setState({ selectVideo: filmDetail })
                 console.log(this.state.selectVideo)
             })
             .catch(error => {
-                // this.setState({ loadSpinner: false });
             });
-
-
     }
 
 
@@ -61,6 +73,7 @@ class VideoDetail extends Component {
                             <h2 className="video-detail__content__text__title">{this.state.selectVideo.title}</h2>
                             <p className="video-detail__content__text__overview">{this.state.selectVideo.overview}</p>
                             <span className="video-detail__content__text__vote">Note Tmdb: {this.state.selectVideo.vote_average} / 10</span>
+                            <span className="video-detail__content__text__vote">Sortie: {this.state.selectVideo.release_date} / 10</span>
                         </div>
                         <div className="video-detail__player">
 
@@ -73,7 +86,7 @@ class VideoDetail extends Component {
                                 <iframe
                                     allowFullScreen="alloFullScreen"
                                     height="315"
-                                    src={apiUrl + "video/" + this.state.selectVideo.title}
+                                    src={apiUrl + "video/" + this.state.selectVideo.media_name}
                                     width="100%"
                                     content-type="video/mkv"
                                 ></iframe>

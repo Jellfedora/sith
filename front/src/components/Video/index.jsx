@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_REST_API;
-const API_TOKEN = "9c9ae8a3d0afe9b28787537f6455c4f0";
+const API_TOKEN = process.env.REACT_APP_TMDB_API_TOKEN;
 
 class Video extends Component {
     constructor(props) {
@@ -26,42 +26,45 @@ class Video extends Component {
     }
 
     getVideos = () => {
-        axios.get(apiUrl + 'get-folder-videos'
+        axios.get(apiUrl + 'all-films'
         )
             .then(response => {
                 console.log(response)
+                let listOfVideos = this.state.listOfVideos
 
-                response.data.repertoryVideo.map((item, i) => {
-                    this.getVideoInfo(item, i)
+                response.data.map((item, i) => {
+                    let filmDetail = item;
+                    listOfVideos.push(filmDetail);
+                    this.setState({ listOfVideos: listOfVideos })
                 })
             })
             .catch(error => {
             });
     }
 
-    getVideoInfo = (filmTitle, i) => {
-        // Tmdb test
-        console.log(filmTitle)
-        const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + filmTitle
-        axios.get(url
-        )
-            .then(response => {
-                console.log(response)
-                let listOfVideos = this.state.listOfVideos
-                let filmDetail = {
-                    'title': filmTitle,
-                    'overview': response.data.results[0].overview,
-                    'poster_path': "https://image.tmdb.org/t/p/w300" + response.data.results[0].poster_path,
-                    'vote_average': response.data.results[0].vote_average,
-                }
-                listOfVideos.push(filmDetail)
-                this.setState({ listOfVideos: listOfVideos })
-            })
-            .catch(error => {
-            });
+    // getVideoInfo = (filmTitle, i) => {
+    //     // Tmdb test
+    //     console.log(filmTitle)
+    //     const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + filmTitle
+    //     axios.get(url
+    //     )
+    //         .then(response => {
+    //             console.log(response)
+    //             let listOfVideos = this.state.listOfVideos
+    //             let filmDetail = {
+    //                 'title': filmTitle,
+    //                 'overview': response.data.results[0].overview,
+    //                 'poster_path': "https://image.tmdb.org/t/p/w300" + response.data.results[0].poster_path,
+    //                 'vote_average': response.data.results[0].vote_average,
+    //             }
+    //             listOfVideos.push(filmDetail)
+    //             this.setState({ listOfVideos: listOfVideos })
+    //         })
+    //         .catch(error => {
+    //         });
 
 
-    }
+    // }
 
     streamVideo = (item) => {
         console.log(item)
