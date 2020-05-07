@@ -14,6 +14,7 @@ import ServerIsDown from '../ServerIsDown';
 import App from '../App';
 import Authentificator from "../Authentificator";
 import Administration from "../Administration";
+import Users from '../Users';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_REST_API;
@@ -58,6 +59,9 @@ class Navigation extends Component {
         } else {
             render =
                 <Switch>
+                    <Route path="/admin/users">
+                        <Users />
+                    </Route>
                     <Route path="/admin">
                         <Administration />
                     </Route>
@@ -70,7 +74,6 @@ class Navigation extends Component {
                     <Route path="/music">
                         <Music />
                     </Route>
-
                     <Route path="/">
                         <Home />
                     </Route>

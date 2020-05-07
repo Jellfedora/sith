@@ -20,7 +20,7 @@
         position: fixed;
         top: 0;
         width: 100%;
-        border-bottom: 4px solid $color-blue;
+        border-bottom: 4px solid $color-red;
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
 
@@ -33,6 +33,7 @@
 
             & span {
                 line-height: 2.7em;
+                font-family: 'Orbitron', sans-serif;
             }
         }
     }
