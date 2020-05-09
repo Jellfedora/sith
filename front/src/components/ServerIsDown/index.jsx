@@ -57,7 +57,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         // isStart: state.home.isStart,
     }

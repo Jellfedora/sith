@@ -36,7 +36,6 @@ class Navigation extends Component {
     }
 
     getServerStatus = () => {
-        console.log('ici')
         axios.get(apiUrl + 'start'
         )
             .then(response => {
@@ -52,7 +51,6 @@ class Navigation extends Component {
 
     render() {
         let render;
-        console.log(this.props.isConnect)
         if (!this.props.serverIsDown) {
             render = <ServerIsDown />
         } else if (!this.props.isConnect) {
@@ -105,7 +103,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         serverIsDown: state.server.isStart,
         isConnect: state.user.isConnect,

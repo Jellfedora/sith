@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import {
-    Link
-} from "react-router-dom";
-
 const apiUrl = process.env.REACT_APP_REST_API;
 const API_TOKEN = process.env.REACT_APP_TMDB_API_TOKEN;
 
@@ -49,7 +45,6 @@ class Administration extends Component {
         axios.get(apiUrl + 'admin-all-films'
         )
             .then(response => {
-                console.log(response)
                 response.data.map((item, i) => {
                     let filmDetail = {
                         'media_name': item.media_name,
@@ -59,6 +54,7 @@ class Administration extends Component {
                     let medias = this.state.medias;
                     medias.push(filmDetail)
                     this.setState({ medias: medias, selectedMedia: response.data[0].media_name })
+                    return true;
                 })
             })
             .catch(error => {
@@ -99,6 +95,7 @@ class Administration extends Component {
 
                     searchResults.push(filmDetail)
                     this.setState({ searchResults: searchResults, searchStatusMessageError: false })
+                    return true;
                 })
             })
             .catch(error => {
@@ -137,7 +134,7 @@ class Administration extends Component {
             if ((item.poster_path !== 'https://image.tmdb.org/t/p/w300null')) {
                 return (
                     <div className="video__content__video-info" onClick={() => this.selectedFilm(item)} key={i}>
-                        <img src={item.poster_path} alt="film-photo" className="video__content__video-info__img" />
+                        <img src={item.poster_path} alt="film-poster" className="video__content__video-info__img" />
                         <div className="video__content__video-info__text">
                             <span className="video__content__video-info__text__title">{item.title}</span>
                             <p className="video__content__video-info__text__overview">{item.overview.substr(0, 250)}</p>
@@ -145,6 +142,8 @@ class Administration extends Component {
                         </div>
                     </div >
                 );
+            } else {
+                return false
             }
         });
         const mediasName = this.state.medias.map((item, i) => {
@@ -198,7 +197,7 @@ class Administration extends Component {
                             {this.state.selectedFilm &&
                                 <div>
                                     <div className="video__content__video-info" onClick={() => this.selectedFilm(this.state.selectedFilm)}>
-                                        <img src={this.state.selectedFilm.poster_path} alt="film-photo" className="video__content__video-info__img" />
+                                        <img src={this.state.selectedFilm.poster_path} alt="film-poster" className="video__content__video-info__img" />
                                         <div className="video__content__video-info__text">
                                             <span className="video__content__video-info__text__title">{this.state.selectedFilm.title}</span>
                                             <p className="video__content__video-info__text__overview">{this.state.selectedFilm.overview.substr(0, 250)}</p>
@@ -207,6 +206,7 @@ class Administration extends Component {
                                     </div >
                                     <div className="admin-video__content__selected-film__player">
                                         <iframe
+                                            title="video-player"
                                             allowFullScreen="alloFullScreen"
                                             height="315"
                                             src={apiUrl + "video/" + this.state.selectedMedia}

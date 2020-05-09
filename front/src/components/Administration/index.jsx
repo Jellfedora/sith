@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import {
     Link
 } from "react-router-dom";
-
-const apiUrl = process.env.REACT_APP_REST_API;
 
 class Administration extends Component {
     constructor(props) {

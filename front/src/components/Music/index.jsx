@@ -243,7 +243,7 @@ class Music extends Component {
 
             // TODO A deplacer
             // Définit si c'est la premiére chanson de la liste
-            if (this.state.listOfSongs.indexOf(this.state.songTitle) == 0) {
+            if (this.state.listOfSongs.indexOf(this.state.songTitle) === 0) {
                 this.setState({ isFirstSongOfAlbulm: true });
             } else {
                 this.setState({ isFirstSongOfAlbulm: false });
@@ -266,7 +266,7 @@ class Music extends Component {
     render() {
         const openFolder = this.state.openFolder;
         const songTitle = this.state.songTitle;
-        const songImg = this.state.source;
+        // const songImg = this.state.source;
         const currentTime = this.state.currentTime;
         const duration = this.getDuration();
         const listOfFolders = this.state.listOfFolders.map((item, i) => {

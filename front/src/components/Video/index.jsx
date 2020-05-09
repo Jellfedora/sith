@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_REST_API;
-const API_TOKEN = process.env.REACT_APP_TMDB_API_TOKEN;
 
 class Video extends Component {
     constructor(props) {
@@ -22,20 +21,20 @@ class Video extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state.listOfVideos)
     }
 
     getVideos = () => {
         axios.get(apiUrl + 'all-films'
         )
             .then(response => {
-                console.log(response)
                 let listOfVideos = this.state.listOfVideos
 
+                console.log("Todo remplacer par foreach")
                 response.data.map((item, i) => {
                     let filmDetail = item;
                     listOfVideos.push(filmDetail);
                     this.setState({ listOfVideos: listOfVideos })
+                    // return true;
                 })
             })
             .catch(error => {
@@ -67,7 +66,6 @@ class Video extends Component {
     // }
 
     streamVideo = (item) => {
-        console.log(item)
         this.setState({ selectVideo: item })
     }
 
@@ -75,7 +73,7 @@ class Video extends Component {
         const listOfVideos = this.state.listOfVideos.map((item, i) => {
             return (
                 <Link className="video__content__video-info" to={'/video-detail/' + item.title} key={i}>
-                    < img src={item.poster_path} alt="film-photo" className="video__content__video-info__img" />
+                    < img src={item.poster_path} alt="film-poster" className="video__content__video-info__img" />
                     <div className="video__content__video-info__text">
                         <span className="video__content__video-info__text__title">{item.title}</span>
                         <p className="video__content__video-info__text__overview">{item.overview.substr(0, 250)}</p>
@@ -84,7 +82,7 @@ class Video extends Component {
                 </Link >
             );
         });
-        const selectVideo = this.state.selectVideo;
+        // const selectVideo = this.state.selectVideo;
 
         return (
             <div className="video" >

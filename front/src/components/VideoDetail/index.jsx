@@ -4,7 +4,6 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 const apiUrl = process.env.REACT_APP_REST_API;
-const API_TOKEN = "9c9ae8a3d0afe9b28787537f6455c4f0";
 
 class VideoDetail extends Component {
     constructor(props) {
@@ -66,14 +65,14 @@ class VideoDetail extends Component {
 
         return (
             <div className="video-detail">
-                {this.state.selectVideo &&
+                {item &&
                     <div className="video-detail__content">
-                        <img src={this.state.selectVideo.poster_path} alt="film-photo" className="video-detail__content__img" />
+                        <img src={item.poster_path} alt="film-poster" className="video-detail__content__img" />
                         <div className="video-detail__content__text">
-                            <h2 className="video-detail__content__text__title">{this.state.selectVideo.title}</h2>
-                            <p className="video-detail__content__text__overview">{this.state.selectVideo.overview}</p>
-                            <span className="video-detail__content__text__vote">Note Tmdb: {this.state.selectVideo.vote_average} / 10</span>
-                            <span className="video-detail__content__text__vote">Sortie: {this.state.selectVideo.release_date} / 10</span>
+                            <h2 className="video-detail__content__text__title">{item.title}</h2>
+                            <p className="video-detail__content__text__overview">{item.overview}</p>
+                            <span className="video-detail__content__text__vote">Note Tmdb: {item.vote_average} / 10</span>
+                            <span className="video-detail__content__text__vote">Sortie: {item.release_date} / 10</span>
                         </div>
                         <div className="video-detail__player">
 
@@ -84,9 +83,10 @@ class VideoDetail extends Component {
                             }
                             {this.state.videoIsPlay &&
                                 <iframe
+                                    title="video-player"
                                     allowFullScreen="alloFullScreen"
                                     height="315"
-                                    src={apiUrl + "video/" + this.state.selectVideo.media_name}
+                                    src={apiUrl + "video/" + item.media_name}
                                     width="100%"
                                     content-type="video/mkv"
                                 ></iframe>
