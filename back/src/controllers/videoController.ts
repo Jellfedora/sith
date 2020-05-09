@@ -70,22 +70,37 @@ export default class VideoController {
                 verified_by_admin: false
             });
 
-            newFilm.save((err, user) => {
+            newFilm.save((err, product) => {
                 if (err) {
                     throw err;
                 } else {
-                    console.log(newFilm.media_name + ' enregistré');
+                    console.log(product.media_name + ' ajouté en bdd');
                 }
             });
         })
 
+        // On vérifie si des films ont étés supprimés du disque
+        allFilmsTitle.forEach((media_name) => {
+            let searchMedia = listOfVideos.includes(media_name);
+            if (!searchMedia) {
+                // Si oui on supprime le film de la bdd
+                console.log(media_name + ' supprimé de la bdd')
+                VideoController.deleteFilmBdd(media_name);
+
+            }
+        })
 
         response.json(filmNotInBdd.length + ' films ajoutés en bdd');
     }
 
+    // Supprime un film de la base de données
+    static async deleteFilmBdd(media_name) {
+        await Film.findOneAndDelete({ "media_name": media_name });
+    }
+
+
     // Ajoute les informations d'un film en bdd
     static async addFilm(request: Request, response: Response) {
-        console.log(request.body.media_name)
         const film = request.body.film
 
         const filter = { media_name: request.body.media_name };
@@ -101,55 +116,28 @@ export default class VideoController {
 
         // Récupérer le film de la bdd
         let filmUpdated = await Film.findOneAndUpdate(filter, update);
-        console.log(filmUpdated)
-        // getFilm =({
-        //     title: film.title,
-        //     overview: film.overview,
-        //     poster_path: film.poster_path,
-        //     vote_average: film.vote_average,
-        //     release_date: film.release_date,
-        //     media_name: request.body.media_name,
-        //     verified_by_admin: true
-        // });
-        // filmUpdated.save((err, user) => {
-        //     if (err) {
-        //         throw err;
-        //     } else {
-        //         console.log(filmUpdated.title + ' enregistré');
-        //         response.json(filmUpdated.title + ' enregistré!');
-        //     }
-        // });
+        console.log(filmUpdated.title + " mis à jour")
     }
 
     // Récupére tout les films de la base de données
     static async adminGetAllFilms(request: Request, response: Response) {
         const allFilms: Array<IFilm> = await Film.find();
-
-        // allFilms.forEach((film) => {
-        // });
-
-        console.log(allFilms);
         response.json(allFilms);
     }
 
     // Récupére tout les films de la base de données
     static async getAllFilms(request: Request, response: Response) {
         const allFilms: Array<IFilm> = await Film.find({ verified_by_admin: true });
-
-        // allFilms.forEach((film) => {
-        // });
-
-        console.log(allFilms);
         response.json(allFilms);
     }
 
     // Récupére un film de la base de données
     static async getOneFilm(request: Request, response: Response) {
         var filmTitle = request.params.key;
-        console.log(filmTitle)
         const getFilm = await Film.findOne({ title: filmTitle });
 
         if (getFilm) {
+            console.log("Page de " + getFilm.title + " affichée")
             return response.status(200).json(getFilm);
         } else {
             return response.status(403).json('Aucun film trouvé');
