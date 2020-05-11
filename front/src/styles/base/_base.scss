@@ -30,3 +30,7 @@ button:focus {
 a {
     text-decoration: none;
 }
+
+input:focus {
+    outline: none;
+}

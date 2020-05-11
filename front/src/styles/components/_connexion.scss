@@ -1,6 +1,10 @@
 .connexion {
-    margin-top: 5em;
+    margin-top: 7em;
     color: $color-white;
+    // display: flex;// align-content: center;
+    // align-items: center;
+    // justify-content: center;
+    // height: 100%;
 
     &__content {
         padding: 1em;
@@ -11,24 +15,89 @@
         }
 
         &__form {
-            margin-top: 2em;
+            margin-top: 4em;
+
+
+            &__submit {
+                &__button {
+                    width: 8em;
+                    border-radius: 10px;
+                    color: $color-dark;
+                    font-weight: bold;
+                    height: 2.5em;
+                }
+            }
 
             &__formgroup {
 
-                &__id,
-                &__password {
+                &__id {
                     display: flex;
+                    justify-content: center;
                     flex-wrap: wrap;
-                    margin-bottom: 1em;
+                    margin-bottom: 3em;
+                    flex-direction: column;
 
-                    & label,
                     & input {
-                        width: 100%;
-                        margin: 0.5em
+                        width: 19em;
+                        font-weight: bold;
+                        height: 2em;
+                        border-radius: 10px;
+                        font-size: 1em;
+                        margin: 1em auto 0 auto;
+                        text-align: center;
+                        transition-duration: 1.5s;
+                    }
+
+                    & input:focus {
+                        border: 2px solid $color-red;
                     }
 
                     & label {
-                        text-transform: uppercase;
+                        width: 15em;
+                        margin: 0 auto;
+                        font-weight: bold;
+                    }
+                }
+
+                &__password {
+                    margin-bottom: 1.5em;
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+
+                    & label {
+                        font-weight: bold;
+                    }
+
+                    &__content {
+                        & input {
+                            margin-top: 1em;
+                            width: 19em;
+                            font-weight: bold;
+                            height: 2em;
+                            font-size: 1em;
+                            border-radius: 10px;
+                            text-align: center;
+                            transition-duration: 1.5s;
+                        }
+
+                        & input:focus {
+                            border: 2px solid $color-red;
+                        }
+
+
+                        &__toggle {
+                            position: relative;
+                            display: block;
+                            bottom: 1.6em;
+                            left: 8.5em;
+                            color: $color-dark;
+                            width: 2em;
+                            margin: auto;
+                        }
+
+                        width: 100%;
+
                     }
                 }
             }
@@ -40,7 +109,7 @@
         }
 
         &__message {
-            margin-top: 2em;
+            margin-top: 4em;
         }
     }
 }

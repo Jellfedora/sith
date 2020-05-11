@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
 
 class Authentificator extends Component {
@@ -12,7 +12,9 @@ class Authentificator extends Component {
             password: '',
             validId: null,
             validPassword: null,
-            connexionError: false
+            connexionError: false,
+            passwordHidden: true,
+            startSpinner: false
         };
     }
 
@@ -36,7 +38,7 @@ class Authentificator extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.id + '  ' + this.state.password)
+        this.setState({ startSpinner: true });
         axios.post(apiUrl + 'login', {
             identifiant: this.state.id,
             password: this.state.password
@@ -45,11 +47,12 @@ class Authentificator extends Component {
                 console.log(response)
                 const action = { type: "SAVE_USER", value: response.data }
                 this.props.dispatch(action)
+                this.setState({ startSpinner: false });
                 // this.setState({ loadSpinner: false, redirectToAccount: true });
             })
             .catch(error => {
                 console.log(error)
-                this.setState({ connexionError: true });
+                this.setState({ connexionError: true, startSpinner: false });
             });
     }
 
@@ -62,18 +65,38 @@ class Authentificator extends Component {
                         <div className="connexion__content__form__formgroup__id">
                             <label htmlFor="exampleInputId"> Identifiant
                             </label>
-                            <input type="text" className="" id="InputId" value={this.state.id} onChange={this.handleIdChange} />
+                            <input type="text" id="InputId" value={this.state.id} onChange={this.handleIdChange} />
                         </div>
                         <div className="connexion__content__form__formgroup__password">
                             <label htmlFor="exampleInputPassword1">Mot de Passe
                             </label>
-                            <input type="password" className="" id="InputPassword" value={this.state.password} onChange={this.handlePasswordChange} />
+                            <div className="connexion__content__form__formgroup__password__content">
+                                <input type={this.state.passwordHidden ? "password" : "text"} className="" value={this.state.password} onChange={this.handlePasswordChange} />
+                                {this.state.passwordHidden
+                                    ?
+                                    <span className="connexion__content__form__formgroup__password__content__toggle" onClick={() => this.setState({ passwordHidden: false })}><FontAwesomeIcon icon="eye" size="1x" /></span>
+                                    :
+                                    <span className="connexion__content__form__formgroup__password__content__toggle" onClick={() => this.setState({ passwordHidden: true })}><FontAwesomeIcon icon="eye-slash" size="1x" /></span>
+                                }
+                            </div>
                         </div>
                         <div className="connexion__content__form__submit">
 
-                            <button className="btn btn-primary" onClick={this.handleSubmit}>
-                                Connexion
+                            <button className="connexion__content__form__submit__button" onClick={this.handleSubmit}>
+                                {!this.state.startSpinner
+                                    ? <span>
+                                        Connexion
+                                    </span>
+
+                                    : <FontAwesomeIcon
+                                        icon="spinner"
+                                        spin
+                                        size="1x"
+                                    />
+                                }
                             </button>
+
+
                         </div>
                         <div className="connexion__content__form__error">
                             {this.state.connexionError &&

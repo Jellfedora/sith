@@ -9,9 +9,9 @@ import Navigation from "../Navigation";
 
 // Fontawesome 5
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlay, faStop, faFastForward, faFastBackward, faPause, faChevronLeft, faRetweet, faRandom, faForward, faBackward } from '@fortawesome/free-solid-svg-icons';
-import { faChromecast } from '@fortawesome/free-brands-svg-icons'; //For brand icons
-library.add(faPlay, faStop, faFastForward, faFastBackward, faPause, faChevronLeft, faRetweet, faRandom, faForward, faBackward, faChromecast);
+import { faPlay, faStop, faFastForward, faFastBackward, faPause, faChevronLeft, faRetweet, faRandom, faForward, faBackward, faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faChromecast, } from '@fortawesome/free-brands-svg-icons'; //For brand icons
+library.add(faPlay, faStop, faFastForward, faFastBackward, faPause, faChevronLeft, faRetweet, faRandom, faForward, faBackward, faChromecast, faEye, faEyeSlash, faSpinner);
 
 const App = () => {
     return (
