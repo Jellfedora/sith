@@ -15,7 +15,8 @@ class Video extends Component {
             searchInlistOfVideos: [],
             titleOfVideos: [],
             searchVideoResults: [],
-            searchActive: false
+            searchActive: false,
+            loadVideosSpinner: false
         };
     }
 
@@ -29,6 +30,7 @@ class Video extends Component {
     }
 
     getVideos = () => {
+        this.setState({ loadVideosSpinner: true })
         axios.get(apiUrl + 'all-films'
         )
             .then(response => {
@@ -50,18 +52,19 @@ class Video extends Component {
 
                     titleOfVideos.push(test);
 
-                    this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos })
+                    this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, loadVideosSpinner: false })
                     // return true;
                 })
                 // this.triArray()
             })
             .catch(error => {
+                this.setState({ loadVideosSpinner: false })
             });
     }
 
     handleSearchFilmChange = (e) => {
         let idTarget = e.target.value;
-        this.setState({ searchTerm: idTarget });
+        this.setState({ searchFilm: idTarget });
 
 
         if (idTarget.length > 0) {
@@ -80,7 +83,7 @@ class Video extends Component {
     }
 
     deleteSearch = () => {
-        this.setState({ searchVideoResults: [], searchActive: false })
+        this.setState({ searchVideoResults: [], searchActive: false, searchFilm: '' })
     }
 
     render() {
@@ -111,18 +114,32 @@ class Video extends Component {
 
         return (
             <div className="video" >
-                <div className="video__content">
-                    {this.state.searchActive
-                        ?
-                        <div className="video__content__display">
-                            {searchVideos}
-                        </div>
-                        :
-                        <div className="video__content__display">
-                            {listOfVideos}
-                        </div>
-                    }
-                </div>
+                {this.state.loadVideosSpinner
+                    ?
+                    <div className="video__loader">
+                        <FontAwesomeIcon
+                            icon="spinner"
+                            spin
+                            size="2x"
+                        />
+                    </div>
+                    :
+                    <div className="video__content">
+                        {this.state.searchActive
+                            ?
+                            <div className="video__content__display">
+                                {searchVideos}
+                            </div>
+                            :
+                            <div className="video__content__display">
+                                {listOfVideos}
+                            </div>
+                        }
+                    </div>
+
+                }
+
+
                 <div className="video__searchbar">
                     <div className='video__searchbar__opacity'>
                     </div>
