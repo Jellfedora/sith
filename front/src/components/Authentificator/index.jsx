@@ -22,8 +22,6 @@ class Authentificator extends Component {
     }
 
     componentDidUpdate() {
-        console.log('navigation')
-        // this.getServerStatus();
     }
 
     handleIdChange = (e) => {

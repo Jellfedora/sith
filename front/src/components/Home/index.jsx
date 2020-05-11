@@ -13,7 +13,6 @@ class Home extends Component {
 
     render() {
         let levelAccess;
-        console.log(this.props.userRole)
         if (this.props.userRole === 3) {
             levelAccess =
                 <div className="home__links">
