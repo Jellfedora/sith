@@ -60,8 +60,8 @@ class VideoDetail extends Component {
                         </div>
                         <div className="video-detail__player">
                             {/* Dev */}
-                            {/* <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} /> */}
-                            <VideoPlayer mediaTitle='https://sith-api.hopto.org/api/video/6%20Underground' />
+                            <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} />
+                            {/* <VideoPlayer mediaTitle='https://sith-api.hopto.org/api/video/6%20Underground' /> */}
 
 
                             {/* < CastProvider >
