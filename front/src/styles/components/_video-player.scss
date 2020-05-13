@@ -1,0 +1,46 @@
+.video-player {
+
+
+    &__screen {
+        height: 20em;
+        width: 100%;
+    }
+
+    &__cast {
+        width: 100%;
+        height: 3em;
+        background-color: $color-grey;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        border-top: $color-red 2px solid;
+
+        &__buttons {
+            background-color: transparent;
+            color: $color-white;
+            border: none;
+            border-radius: 50px;
+            margin: 1em;
+        }
+    }
+
+    &__controls {
+        width: 100%;
+        height: 3em;
+        background-color: $color-grey;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        border-top: $color-red 2px solid;
+
+        &__buttons {
+            background-color: transparent;
+            color: $color-white;
+            border: none;
+            border-radius: 50px;
+            margin: 1em;
+        }
+    }
+}

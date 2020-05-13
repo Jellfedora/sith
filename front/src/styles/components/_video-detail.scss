@@ -28,19 +28,19 @@
         }
     }
 
-    &__player {
-        display: flex;
-        justify-content: center;
+    // &__player {
+    //     display: flex;
+    //     justify-content: center;
 
-        & button {
-            background-color: $color-red;
-            border: none;
-            border-radius: 50px;
-            margin-top: 1em;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-    }
+    //     & button {
+    //         background-color: $color-red;
+    //         border: none;
+    //         border-radius: 50px;
+    //         margin-top: 1em;
+    //         font-weight: bold;
+    //         text-transform: uppercase;
+    //     }
+    // }
 }
 
 // Large devices (desktops, 992px and up)

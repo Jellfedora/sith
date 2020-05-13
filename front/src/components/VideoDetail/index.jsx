@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-
+import CastProvider from 'react-chromecast';
+import CastButton from '../CastButton';
+import VideoCast from '../VideoCast';
+import VideoPlayer from '../VideoPlayer';
 const apiUrl = process.env.REACT_APP_REST_API;
 
 class VideoDetail extends Component {
@@ -17,29 +20,13 @@ class VideoDetail extends Component {
     componentDidMount() {
         const filmTitle = this.props.location.pathname.split('/')[2]
         this.getVideoInfo(filmTitle);
+    }
 
-    }
     componentDidUpdate() {
-        console.log(this.state.selectVideo)
     }
+
 
     getVideoInfo = (filmTitle) => {
-        // axios.get(url
-        // )
-        //     .then(response => {
-        //         let filmDetail = {
-        //             'title': filmTitle,
-        //             'overview': response.data.results[0].overview,
-        //             'poster_path': "https://image.tmdb.org/t/p/w300" + response.data.results[0].poster_path,
-        //             'vote_average': response.data.results[0].vote_average,
-        //         }
-        //         // selectVideo.push(filmDetail)
-        //         this.setState({ selectVideo: filmDetail })
-        //         console.log(this.state.selectVideo)
-        //     })
-        //     .catch(error => {
-        //         // this.setState({ loadSpinner: false });
-        //     });
         axios.get(apiUrl + 'one-film/' + filmTitle
         )
             .then(response => {
@@ -53,16 +40,13 @@ class VideoDetail extends Component {
                 }
                 // selectVideo.push(filmDetail)
                 this.setState({ selectVideo: filmDetail })
-                console.log(this.state.selectVideo)
             })
             .catch(error => {
             });
     }
 
-
     render() {
         const item = this.state.selectVideo;
-
         return (
             <div className="video-detail">
                 {item &&
@@ -75,22 +59,27 @@ class VideoDetail extends Component {
                             <span className="video-detail__content__text__vote">Sortie: {item.release_date} / 10</span>
                         </div>
                         <div className="video-detail__player">
+                            {/* Dev */}
+                            {/* <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} /> */}
+                            <VideoPlayer mediaTitle='https://sith-api.hopto.org/api/video/6%20Underground' />
 
-                            {!this.state.videoIsPlay &&
-                                <button onClick={() => this.setState({ videoIsPlay: true })}>
-                                    Regarder
-                                </button>
-                            }
-                            {this.state.videoIsPlay &&
-                                <iframe
-                                    title="video-player"
-                                    allowFullScreen="alloFullScreen"
-                                    height="315"
-                                    src={apiUrl + "video/" + item.media_name}
-                                    width="100%"
-                                    content-type="video/mkv"
-                                ></iframe>
-                            }
+
+                            {/* < CastProvider >
+                                <CastButton />
+                                <VideoCast mediaTitle="https://sith-api.hopto.org/api/video/6%20Underground" />
+                            </ CastProvider > */}
+
+
+                            {/* Prod */}
+                            {/* < CastProvider >
+                            <CastButton />
+                            <VideoCast mediaTitle={apiUrl + "video/" + item.media_name} />
+                        </ CastProvider > */}
+
+
+                            {/* <div data-vjs-player>
+                                <video ref={node => this.videoNode = node} className="video-js"></video>
+                            </div> */}
                         </div>
                     </div >
                 }
