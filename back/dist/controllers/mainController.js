@@ -77,13 +77,10 @@ class MainController {
             let videoFolder = process.env.VIDEO_PATH;
             try {
                 if (fs.readdirSync(videoFolder)) {
-                    console.log('disque accessible');
                     return response.status(200).json('ok');
                 }
             }
             catch (err) {
-                console.error(err);
-                console.log('disque error');
                 return response.status(500).json('nope');
             }
         });
@@ -111,6 +108,7 @@ class MainController {
     static getFolderSongs(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             var key = request.params.key;
+            console.log('Demande dossier Musique : ' + key);
             // Chemin du dossier Musique + key
             let pathMusicFolder = process.env.MUSIC_PATH + key;
             var songsOfRepository = fs.readdirSync(pathMusicFolder).sort();
@@ -141,6 +139,7 @@ class MainController {
         return __awaiter(this, void 0, void 0, function* () {
             var repertory = request.params.repertory;
             var song = request.params.song;
+            console.log('Demande streaming musique : ' + song);
             const musicFolder = process.env.MUSIC_PATH + repertory;
             var music = musicFolder + '/' + song + '.mp3';
             var stat = fs.statSync(music);
@@ -177,7 +176,7 @@ class MainController {
     static getVideoStreaming(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             var key = request.params.key;
-            console.log(key);
+            console.log('Demande streaming Films : ' + key);
             if (key === 'null') {
                 response.json('coucou');
             }
