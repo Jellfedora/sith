@@ -2,9 +2,6 @@ import React, { Component, useCallback } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
-import CastProvider from 'react-chromecast';
-import CastButton from '../CastButton';
-import VideoCast from '../VideoCast';
 import VideoPlayer from '../VideoPlayer';
 const apiUrl = process.env.REACT_APP_REST_API;
 
@@ -26,17 +23,20 @@ class VideoDetail extends Component {
     }
 
 
+
     getVideoInfo = (filmTitle) => {
         axios.get(apiUrl + 'one-film/' + filmTitle
         )
             .then(response => {
+                let date = new Date;
+                date = date.toLocaleDateString()
                 let filmDetail = {
                     'title': response.data.title,
                     'overview': response.data.overview,
                     'poster_path': response.data.poster_path,
                     'vote_average': response.data.vote_average,
                     'media_name': response.data.media_name,
-                    'release_date': response.data.release_date
+                    'release_date': date
                 }
                 // selectVideo.push(filmDetail)
                 this.setState({ selectVideo: filmDetail })
@@ -56,30 +56,10 @@ class VideoDetail extends Component {
                             <h2 className="video-detail__content__text__title">{item.title}</h2>
                             <p className="video-detail__content__text__overview">{item.overview}</p>
                             <span className="video-detail__content__text__vote">Note Tmdb: {item.vote_average} / 10</span>
-                            <span className="video-detail__content__text__vote">Sortie: {item.release_date} / 10</span>
+                            <span className="video-detail__content__text__vote">Sortie: {item.release_date}</span>
                         </div>
                         <div className="video-detail__player">
-                            {/* Dev */}
                             <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} />
-                            {/* <VideoPlayer mediaTitle='https://sith-api.hopto.org/api/video/6%20Underground' /> */}
-
-
-                            {/* < CastProvider >
-                                <CastButton />
-                                <VideoCast mediaTitle="https://sith-api.hopto.org/api/video/6%20Underground" />
-                            </ CastProvider > */}
-
-
-                            {/* Prod */}
-                            {/* < CastProvider >
-                            <CastButton />
-                            <VideoCast mediaTitle={apiUrl + "video/" + item.media_name} />
-                        </ CastProvider > */}
-
-
-                            {/* <div data-vjs-player>
-                                <video ref={node => this.videoNode = node} className="video-js"></video>
-                            </div> */}
                         </div>
                     </div >
                 }

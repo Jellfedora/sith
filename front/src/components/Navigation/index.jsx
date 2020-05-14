@@ -9,7 +9,7 @@ import {
 import Home from '../Home';
 import Music from '../Music';
 import Video from '../Video';
-import VideoDetail from '../VideoDetail';
+import VideoDetail from '../VideoDetail/index.jsx';
 import ServerIsDown from '../ServerIsDown';
 import App from '../App';
 import Authentificator from "../Authentificator";

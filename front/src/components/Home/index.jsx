@@ -16,36 +16,38 @@ class Home extends Component {
         if (this.props.userRole === 3) {
             levelAccess =
                 <div className="home__links">
-                    <Link className="home__links__link" to="/music">
-                        <span>Musiques</span>
+                    <Link className="home__links__link" to="/video">
+                        <span >Vidéos</span>
                     </Link>
                     <Link className="home__links__link" to="/music">
-                        <span>Todo Galerie</span>
+                        <span >Musiques</span>
                     </Link>
                     <Link className="home__links__link" to="/admin">
-                        <span>Administration</span>
+                        <span >Administration</span>
                     </Link>
                 </div>
         } else if (this.props.userRole === 2) {
             levelAccess =
                 <div className="home__links">
-                    <Link className="home__links__link" to="/music">
-                        <span>Musiques</span>
+                    <Link className="home__links__link" to="/video">
+                        <span >Vidéos</span>
                     </Link>
                     <Link className="home__links__link" to="/music">
-                        <span>Todo Galerie</span>
+                        <span >Musiques</span>
                     </Link>
                 </div>
         }
         else {
-            levelAccess = ""
+            levelAccess =
+                <div className="home__links">
+                    <Link className="home__links__link" to="/video">
+                        <span >Vidéos</span>
+                    </Link>
+                </div>
         }
         return (
             <div className="home">
                 <div className="home__links">
-                    <Link className="home__links__link" to="/video">
-                        <span>Vidéos</span>
-                    </Link>
                     {levelAccess}
                 </div>
             </div >

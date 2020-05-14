@@ -3,13 +3,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
+    align-content: space-around;
     width: 100%;
-    height: 90vh;
+    height: 100vh;
     padding-top: 3.5em;
 
     // align-content: center;
     &__links {
+        height: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-around;
+        justify-content: center;
+
         &__link {
             width: 100%;
             display: flex;
@@ -20,15 +26,24 @@
 
         & a {
             color: $color-white;
-            height: 2em;
-            width: 10em;
+            height: 5em;
+            width: 80%;
             margin: 1em;
             border: 3px solid $color-red;
             border-radius: 50px;
             padding: 0.5em;
             text-align: center;
-            line-height: 1.8em;
+            line-height: 5em;
             text-transform: uppercase;
+            font-weight: bold;
+            transition-duration: 1s;
+        }
+
+        & a:hover {
+            // color: $color-red;
+            border: $color-white 3px solid;
+            border-radius: 25px;
+            font-size: 1.2em;
         }
 
     }

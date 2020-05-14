@@ -1,34 +1,74 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CastProvider from 'react-chromecast';
-import CastButton from '../CastButton';
-import VideoCast from '../VideoCast';
 
 class VideoPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isCast: false,
+            video: null,
+            isPlay: true,
+            duration: "0:00",
+            currentTime: "0:00"
         };
     }
     componentDidMount = () => {
+        this.setState({ video: document.getElementById('video-player') })
+
     };
+
+    componentDidUpdate = () => {
+        // Event
+        this.state.video.ontimeupdate = () => {
+            this.getCurrentTime()
+            this.getDuration()
+        }
+        this.state.video.onplay = () => {
+            console.log('hey')
+            this.setState({ isPlay: true })
+        }
+        this.state.video.onpause = () => {
+            console.log('pause')
+            this.setState({ isPlay: false })
+        }
+    }
 
     componentWillUnmount = () => {
         this.pauseVideo();
     };
 
+    getCurrentTime = () => {
+        let currentTime = this.convertSeconds(this.state.video.currentTime)
+        this.setState({ currentTime: currentTime })
+    }
+
+    getDuration() {
+        let duration = this.convertSeconds(this.state.video.duration)
+        // let duration = Math.floor(this.state.video.duration / 60) + ':' + ('0' + Math.floor(this.state.video.duration % 60)).slice(-2);
+        this.setState({ duration: duration })
+    }
+
+    convertSeconds = (seconds) => {
+        var sec_num = parseInt(seconds, 10); // don't forget the second param
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours < 10) { hours = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+        return hours + ':' + minutes + ':' + seconds;
+    }
 
     playVideo = () => {
         this.refs.vidRef.play();
-        this.toggleFullScreen()
+        this.setState({ isPlay: true })
     };
 
     pauseVideo = () => {
         if (this.refs.vidRef) {
             // Pause as well
             this.refs.vidRef.pause();
-
+            this.setState({ isPlay: false })
         }
     };
 
@@ -44,59 +84,48 @@ class VideoPlayer extends React.Component {
         }
     };
 
-    cast = () => {
-        this.setState({ isCast: true })
-    };
-
     render = () => {
         return (
             <div className="video-player">
-                {!this.state.isCast &&
-                    <video
-                        className="video-player__screen"
-                        ref="vidRef"
-                        src={this.props.mediaTitle}
-                        type="video/mp4"
-                    />
-
-                }
-
-                {!this.state.isCast
-                    ?
-                    <div className="video-player__controls">
-                        <button onClick={this.playVideo} className="video-player__controls__buttons">
-                            <FontAwesomeIcon
-                                icon="play"
-                                size="1x"
-                            />
-                        </button>
+                <video
+                    id='video-player'
+                    autoPlay
+                    controls
+                    className="video-player__screen"
+                    ref="vidRef"
+                    src={this.props.mediaTitle}
+                    type="video/mp4"
+                />
+                <div className="video-player__controls">
+                    {this.state.isPlay
+                        ?
                         <button onClick={this.pauseVideo} className="video-player__controls__buttons">
                             <FontAwesomeIcon
                                 icon="pause"
                                 size="1x"
                             />
                         </button>
-                        <button onClick={this.toggleFullScreen} className="video-player__controls__buttons">
+                        :
+                        <button onClick={this.playVideo} className="video-player__controls__buttons">
                             <FontAwesomeIcon
-                                icon="compress"
+                                icon="play"
                                 size="1x"
                             />
                         </button>
-                        <button onClick={this.cast} className="video-player__controls__buttons">
-                            <FontAwesomeIcon
-                                icon={['fab', 'chromecast']}
-                                size="1x"
-                            />
-                        </button>
-                    </div>
-                    :
-                    <div className="video-player__cast">
-                        < CastProvider >
-                            <VideoCast mediaTitle={this.props.mediaTitle} />
-                        </ CastProvider >
-                    </div>
+                    }
 
-                }
+                    <div className="video-player__controls__currentime">
+                        <span>
+                            {this.state.currentTime} / {this.state.duration}
+                        </span>
+                    </div>
+                    <button onClick={this.toggleFullScreen} className="video-player__controls__buttons">
+                        <FontAwesomeIcon
+                            icon="compress"
+                            size="1x"
+                        />
+                    </button>
+                </div>
 
 
 

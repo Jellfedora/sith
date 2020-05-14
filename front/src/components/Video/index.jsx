@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
 
-
 class Video extends Component {
     constructor(props) {
         super(props);
@@ -23,11 +22,11 @@ class Video extends Component {
     componentDidMount() {
         // Get all videos
         this.getVideos();
-
     }
 
     componentDidUpdate() {
     }
+
 
     getVideos = () => {
         this.setState({ loadVideosSpinner: true })
