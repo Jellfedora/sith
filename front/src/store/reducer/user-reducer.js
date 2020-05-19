@@ -1,6 +1,6 @@
 const initialState = {
     isConnect: false,
-    identifiant: null,
+    name: null,
     role: null
 }
 
@@ -8,11 +8,12 @@ function userReducer(state = initialState, action) {
     let nextState
     switch (action.type) {
         case 'SAVE_USER':
+            var role = parseInt(action.value.role);
             nextState = {
                 ...state,
                 isConnect: true,
-                identifiant: action.value.identifiant,
-                role: action.value.role
+                name: action.value.name,
+                role: role
             }
             return nextState || state
         default:

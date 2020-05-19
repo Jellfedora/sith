@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
 
@@ -14,7 +15,8 @@ class Authentificator extends Component {
             validPassword: null,
             connexionError: false,
             passwordHidden: true,
-            startSpinner: false
+            startSpinner: false,
+
         };
     }
 
@@ -44,6 +46,8 @@ class Authentificator extends Component {
             .then(response => {
                 console.log(response)
                 const action = { type: "SAVE_USER", value: response.data }
+                Cookies.set('name', response.data.name, { expires: 30 })
+                Cookies.set('role', parseInt(response.data.role), { expires: 30 })
                 this.props.dispatch(action)
                 this.setState({ startSpinner: false });
                 // this.setState({ loadSpinner: false, redirectToAccount: true });

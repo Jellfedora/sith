@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
 import {
     BrowserRouter as Router,
     Switch,
@@ -15,7 +16,9 @@ import App from '../App';
 import Authentificator from "../Authentificator";
 import Administration from "../Administration";
 import VideoAdmin from '../VideoAdmin';
+import SeriesAdmin from '../SeriesAdmin';
 import Users from '../Users';
+import Series from '../Series';
 import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_REST_API;
@@ -24,12 +27,27 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: Cookies.get('name'),
+            role: Cookies.get('role')
         };
     }
 
     componentDidMount() {
 
         this.getServerStatus();
+        console.log(this.state)
+
+        // Vérifie si des cookies sont existant
+        if (this.state.name && this.state.role) {
+            console.log('hey')
+            let cookie = {
+                'name': this.state.name,
+                'role': this.state.role
+            }
+
+            const action = { type: "SAVE_USER", value: cookie }
+            this.props.dispatch(action)
+        }
     }
 
     componentDidUpdate() {
@@ -58,6 +76,12 @@ class Navigation extends Component {
         } else {
             render =
                 <Switch>
+                    <Route path="/admin/series">
+                        <SeriesAdmin />
+                    </Route>
+                    <Route path="/series">
+                        <Series />
+                    </Route>
                     <Route path="/admin/videos">
                         <VideoAdmin />
                     </Route>

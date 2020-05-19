@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
     Link
 } from "react-router-dom";
-
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -12,12 +11,17 @@ class Home extends Component {
     }
 
     render() {
+
+
         let levelAccess;
         if (this.props.userRole === 3) {
             levelAccess =
                 <div className="home__links">
                     <Link className="home__links__link" to="/video">
-                        <span >Vidéos</span>
+                        <span >Films</span>
+                    </Link>
+                    <Link className="home__links__link" to="/series">
+                        <span >Séries</span>
                     </Link>
                     <Link className="home__links__link" to="/music">
                         <span >Musiques</span>
@@ -25,12 +29,16 @@ class Home extends Component {
                     <Link className="home__links__link" to="/admin">
                         <span >Administration</span>
                     </Link>
+
                 </div>
         } else if (this.props.userRole === 2) {
             levelAccess =
                 <div className="home__links">
                     <Link className="home__links__link" to="/video">
                         <span >Vidéos</span>
+                    </Link>
+                    <Link className="home__links__link" to="/series">
+                        <span >Séries</span>
                     </Link>
                     <Link className="home__links__link" to="/music">
                         <span >Musiques</span>
@@ -42,6 +50,9 @@ class Home extends Component {
                 <div className="home__links">
                     <Link className="home__links__link" to="/video">
                         <span >Vidéos</span>
+                    </Link>
+                    <Link className="home__links__link" to="/series">
+                        <span >Séries</span>
                     </Link>
                 </div>
         }
@@ -61,9 +72,11 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
         userRole: state.user.role,
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
