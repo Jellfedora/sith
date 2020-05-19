@@ -1,8 +1,6 @@
 .video {
-    padding-top: 3.5em;
+    margin-top: 3.5em;
     color: $color-white;
-    overflow: scroll;
-    height: 100%;
 
     &__loader {
         width: 100%;
@@ -18,7 +16,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            padding-bottom: 4em;
+            // padding-bottom: 4em;
         }
 
         &__video-info {
@@ -59,28 +57,28 @@
 
     }
 
-    &__player {
-        // display: flex;// justify-content: center;
-        text-align: center;
-        color: $color-white;
-        // position: fixed;
-        // bottom: 0;
-        // left: 0;
-        width: 100%;
-        // background-color: $color-red;
-        padding-bottom: 1em;
+    //     &__player {
+    //         // display: flex;// justify-content: center;
+    //         text-align: center;
+    //         color: $color-white;
+    //         // position: fixed;
+    //         // bottom: 0;
+    //         // left: 0;
+    //         width: 100%;
+    //         // background-color: $color-red;
+    //         padding-bottom: 1em;
 
-        &__iframe {
-            width: 100%;
-            // height: 20em;
-            margin: 2em auto;
-        }
+    //         &__iframe {
+    //             width: 100%;
+    //             // height: 20em;
+    //             margin: 2em auto;
+    //         }
 
-        &__title {}
-    }
+    //         &__title {}
+    //     }
 
     &__searchbar {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         width: 100%;
         height: 2.5em;
@@ -105,8 +103,8 @@
                 position: relative;
                 right: 2em;
                 border: none;
-                background-color: none;
-                // height: 1em;
+                background-color: transparent;
+                color: $color-red;
             }
 
             & input {

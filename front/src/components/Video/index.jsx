@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import * as Scroll from 'react-scroll';
 import Fuse from 'fuse.js'
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
-
+let scroll = Scroll.animateScroll;
 class Video extends Component {
     constructor(props) {
         super(props);
@@ -62,9 +63,9 @@ class Video extends Component {
     }
 
     handleSearchFilmChange = (e) => {
+        scroll.scrollToTop();
         let idTarget = e.target.value;
         this.setState({ searchFilm: idTarget });
-
 
         if (idTarget.length > 0) {
             const options = {
@@ -77,6 +78,7 @@ class Video extends Component {
 
         } else {
             this.setState({ searchActive: false })
+
         }
 
     }
@@ -112,7 +114,7 @@ class Video extends Component {
         });
 
         return (
-            <div className="video" >
+            <div className="video">
                 {this.state.loadVideosSpinner
                     ?
                     <div className="video__loader">
@@ -143,7 +145,7 @@ class Video extends Component {
                     <div className='video__searchbar__opacity'>
                     </div>
                     <div className='video__searchbar__content'>
-                        <input type="text" id="InputId" value={this.state.searchFilm} onChange={this.handleSearchFilmChange} placeholder="Rechercher" />
+                        <input type="text" id="InputId" autocomplete="off" value={this.state.searchFilm} onChange={this.handleSearchFilmChange} placeholder="Rechercher un film" />
                         <button className='video__searchbar__content__delete' onClick={this.deleteSearch}>
                             <FontAwesomeIcon
                                 icon="times-circle"
@@ -152,7 +154,7 @@ class Video extends Component {
                         </button>
                     </div>
                 </div>
-            </div >
+            </div>
         );
     }
 }
