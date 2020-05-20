@@ -1,17 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
 import express from 'express';
-
 import router from "./router";
 import bodyParser from 'body-parser';
-
-// premiers tests mongodb
-// import TestMongo from './testmongo';
-// TestMongo.printAllPokemons();
-
 import mongoose from 'mongoose';
-
+const fileUpload = require('express-fileupload');
 const app: express.Express = express();
 const PORT = process.env.PORT || 3001;
 const PROD_ADRESS = process.env.PROD_ADRESS
@@ -36,6 +29,8 @@ app.use(cors({
         return callback(null, true);
     }
 }));
+
+app.use(fileUpload());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

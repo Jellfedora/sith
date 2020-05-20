@@ -36,6 +36,9 @@ class Administration extends Component {
                 <Link className="admin__link" to="/admin/series">
                     <span>Gestion Séries</span>
                 </Link>
+                <Link className="admin__link" to="/admin/musics">
+                    <span>Gestion Musiques</span>
+                </Link>
             </div >
         );
     }

@@ -17,6 +17,7 @@ import Authentificator from "../Authentificator";
 import Administration from "../Administration";
 import VideoAdmin from '../VideoAdmin';
 import SeriesAdmin from '../SeriesAdmin';
+import MusicsAdmin from '../MusicsAdmin';
 import Users from '../Users';
 import Series from '../Series';
 import axios from 'axios';
@@ -75,6 +76,9 @@ class Navigation extends Component {
         } else {
             render =
                 <Switch>
+                    <Route path="/admin/musics">
+                        <MusicsAdmin />
+                    </Route>
                     <Route path="/admin/series">
                         <SeriesAdmin />
                     </Route>

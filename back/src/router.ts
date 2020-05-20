@@ -3,6 +3,7 @@ import express from 'express';
 import AuthController from './controllers/authController';
 import MainController from './controllers/mainController';
 import VideoController from './controllers/videoController';
+import MusicController from './controllers/musicController';
 
 const router: express.Router = express.Router();
 
@@ -39,5 +40,9 @@ router.post(`/api/add-film`, VideoController.addFilm);
 router.get(`/api/all-films`, VideoController.getAllFilms);
 router.get(`/api/one-film/:key`, VideoController.getOneFilm);
 router.get(`/api/admin-all-films`, VideoController.adminGetAllFilms);
+router.post(`/api/upload-film`, VideoController.uploadMovie);
+
+router.post(`/api/upload-song`, MusicController.uploadSong);
+
 
 export default router;

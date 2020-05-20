@@ -18,7 +18,8 @@ class Administration extends Component {
             statusMessage: false,
             statusMessageColor: undefined,
             searchStatusMessageError: false,
-            tmdbGenres: undefined
+            tmdbGenres: undefined,
+            selectedFile: null
         };
     }
 
@@ -157,6 +158,73 @@ class Administration extends Component {
         this.getMedia();
     }
 
+    // Upload
+    // On file select (from the pop up) 
+    onFileChange = event => {
+
+        // Update the state 
+        this.setState({ selectedFile: event.target.files[0] });
+
+    };
+
+    onFileUpload = () => {
+
+        // Create an object of formData 
+        const formData = new FormData();
+
+        // Update the formData object 
+        formData.append(
+            "myFile",
+            this.state.selectedFile,
+            this.state.selectedFile.name
+        );
+
+
+
+
+        // Details of the uploaded file 
+        console.log(this.state.selectedFile);
+        let config = {
+            headers: {
+                encType: "multipart/form-data",
+            }
+        }
+        axios.post(apiUrl + 'upload-film', formData, {
+            config
+        })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    };
+
+    fileData = () => {
+
+        if (this.state.selectedFile) {
+
+            return (
+                <div>
+                    <h2>File Details:</h2>
+                    <p>File Name: {this.state.selectedFile.name}</p>
+                    <p>File Type: {this.state.selectedFile.type}</p>
+                    <p>
+                        Last Modified:{" "}
+                        {this.state.selectedFile.lastModifiedDate.toDateString()}
+                    </p>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <br />
+                    <h4>Choose before Pressing the Upload button</h4>
+                </div>
+            );
+        }
+    };
+
     render() {
         const searchResults = this.state.searchResults.map((item, i) => {
             if ((item.poster_path !== 'https://image.tmdb.org/t/p/w300null')) {
@@ -204,7 +272,7 @@ class Administration extends Component {
                             </select>
                         </div>
                         <div className="admin-video__content__form__input-search">
-                            <input autocomplete="off" type="text" className="admin-video__content__form__input-search__input" id="InputId" value={this.state.filmTitle} placeholder="Nom du film" onChange={this.handleFilmTitleChange} />
+                            <input autoComplete="off" type="text" className="admin-video__content__form__input-search__input" id="InputId" value={this.state.filmTitle} placeholder="Nom du film" onChange={this.handleFilmTitleChange} />
                         </div>
 
                         <div className="admin-video__content__form__submit">
@@ -259,6 +327,16 @@ class Administration extends Component {
 
 
                 </div>
+                <h3>
+                    Upload Film (finira dans le dossier video path)
+                </h3>
+                <div>
+                    <input type="file" onChange={this.onFileChange} />
+                    <button onClick={this.onFileUpload}>
+                        Upload!
+                </button>
+                </div>
+                {this.fileData()}
 
             </div >
         );
