@@ -193,25 +193,6 @@
     }
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: $color-dark;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: $color-grey;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: $color-grey-light;
-}
 
 .isCheck {
     color: $color-red;

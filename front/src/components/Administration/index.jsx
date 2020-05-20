@@ -31,7 +31,10 @@ class Administration extends Component {
                     <span>Gestion Utilisateurs</span>
                 </Link>
                 <Link className="admin__link" to="/admin/videos">
-                    <span>Gestion Vidéos</span>
+                    <span>Gestion Films</span>
+                </Link>
+                <Link className="admin__link" to="/admin/series">
+                    <span>Gestion Séries</span>
                 </Link>
             </div >
         );

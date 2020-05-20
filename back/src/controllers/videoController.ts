@@ -10,6 +10,7 @@ dotenv.config();
 
 
 import { Film, IFilm } from '../models/film';
+import { Serie, ISerie } from '../models/serie';
 import bodyParser from 'body-parser';
 
 export default class VideoController {
@@ -79,6 +80,8 @@ export default class VideoController {
             });
         })
 
+
+
         // On vérifie si des films ont étés supprimés du disque
         allFilmsTitle.forEach((media_name) => {
             let searchMedia = listOfVideos.includes(media_name);
@@ -93,11 +96,95 @@ export default class VideoController {
         response.json(filmNotInBdd.length + ' films ajoutés en bdd');
     }
 
+
+    // Vérifie si il a de nouvelles Séries sur le disque et les crée en bdd
+    static async checkSeries(request: Request, response: Response) {
+        // Récupére tout les dossiers de séries du dossier Série
+        let pathSeriesFolder = process.env.SERIES_PATH;
+        var seriesOfRepository = fs.readdirSync(pathSeriesFolder);
+
+
+        // On récupére toutes les Séries
+        let listOfSeries = [];
+        seriesOfRepository.forEach(async serie => {
+            let serieArray = {
+                'serie_name': serie,
+                'seasons': []
+            };
+
+            //Pour chaque séries on récupére toutes les saisons
+            let pathSeasonOfSeries = process.env.SERIES_PATH + "/" + serie;
+            var seasonsOfRepository = fs.readdirSync(pathSeasonOfSeries);
+
+            seasonsOfRepository.forEach(season => {
+                // Pour chaque saison on récupére les épisodes
+                let pathEpOfSeasons = process.env.SERIES_PATH + "/" + serie + "/" + season;
+                var epOfSeason = fs.readdirSync(pathEpOfSeasons);
+
+                let seasonArray = {
+                    "season_name": season,
+                    "ep": epOfSeason
+                }
+
+                serieArray["seasons"].push(seasonArray);
+
+            })
+            listOfSeries.push(serieArray)
+
+
+
+            // Récupére tout les titres de films en bdd
+            const allSeriesInBdd: Array<ISerie> = await Serie.find();
+            // console.log(allSeriesInBdd)
+
+            const allSeriesTitle = [];
+
+            allSeriesInBdd.forEach((serie) => {
+                allSeriesTitle.push(serie.media_name)
+            });
+
+            // Pour chaque film du dossier on compare si il existe en bdd
+            let serieNotInBdd = [];
+            listOfSeries.forEach((media) => {
+                let searchFilm = allSeriesTitle.includes(media);
+
+
+                if (!searchFilm) {
+                    serieNotInBdd.push(media);
+                }
+                console.log(serieNotInBdd)
+            });
+
+
+            // On crée toutes les séries non présents en Bdd
+            serieNotInBdd.forEach((serie) => {
+                let newSerie: ISerie = new Serie({
+                    media_name: serie.serie_name,
+                    verified_by_admin: false,
+                    seasons: serie.seasons
+                });
+
+                newSerie.save((err, product) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        console.log(product.media_name + ' ajouté en bdd');
+                    }
+                });
+            })
+
+            // TODO Gérer le cas ou de nouvelles saisons sont ajoutés
+        })
+
+
+
+        response.json(listOfSeries);
+    }
+
     // Supprime un film de la base de données
     static async deleteFilmBdd(media_name) {
         await Film.findOneAndDelete({ "media_name": media_name });
     }
-
 
     // Ajoute les informations d'un film en bdd
     static async addFilm(request: Request, response: Response) {
@@ -110,7 +197,10 @@ export default class VideoController {
             poster_path: film.poster_path,
             vote_average: film.vote_average,
             release_date: film.release_date,
-            verified_by_admin: true
+            verified_by_admin: true,
+            genres_name: film.genres_name,
+            created_at: new Date(),
+            updated_at: new Date()
         };
 
 

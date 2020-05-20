@@ -23,6 +23,7 @@
         border-bottom: 4px solid $color-red;
         border-bottom-right-radius: 20px;
         border-bottom-left-radius: 20px;
+        z-index: 10;
 
         &__title {
             color: $color-white;

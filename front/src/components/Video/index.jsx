@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import * as Scroll from 'react-scroll';
-import Fuse from 'fuse.js'
+import Fuse from 'fuse.js';
+import Carousel from 'nuka-carousel';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
 let scroll = Scroll.animateScroll;
+
 class Video extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,12 @@ class Video extends Component {
             titleOfVideos: [],
             searchVideoResults: [],
             searchActive: false,
-            loadVideosSpinner: false
+            loadVideosSpinner: false,
+            showCategory: true,
+            getLastTen: [],
+            sciFiGenre: [],
+            fantasyGenre: [],
+            horrorGenre: []
         };
     }
 
@@ -40,7 +47,6 @@ class Video extends Component {
                 let titleOfVideos = this.state.titleOfVideos
                 let test = []
                 response.data.map((item, i) => {
-                    console.log(item)
                     let filmDetail = item;
                     listOfVideos.push(filmDetail);
 
@@ -53,9 +59,9 @@ class Video extends Component {
                     titleOfVideos.push(test);
 
                     this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, loadVideosSpinner: false })
-                    // return true;
                 })
-                // this.triArray()
+                this.getLastTen();
+                this.getCategorys();
             })
             .catch(error => {
                 this.setState({ loadVideosSpinner: false })
@@ -65,7 +71,7 @@ class Video extends Component {
     handleSearchFilmChange = (e) => {
         scroll.scrollToTop();
         let idTarget = e.target.value;
-        this.setState({ searchFilm: idTarget });
+        this.setState({ searchFilm: idTarget, showCategory: false });
 
         if (idTarget.length > 0) {
             const options = {
@@ -87,6 +93,58 @@ class Video extends Component {
         this.setState({ searchVideoResults: [], searchActive: false, searchFilm: '' })
     }
 
+    showCategory = () => {
+        this.setState({ showCategory: true, searchFilm: '' })
+    }
+
+    getLastTen = () => {
+        let listOfVideos = this.state.listOfVideos;
+
+        listOfVideos = listOfVideos.sort(this.sortByDate);
+
+        const getLastTen = []
+        for (let index = 0; index < 10; index++) {
+            const video = listOfVideos[index];
+            getLastTen.push(video)
+
+        }
+        this.setState({ getLastTen: getLastTen })
+    }
+
+    sortByDate = (a, b) => {
+        var da = new Date(a.created_at);
+        var db = new Date(b.created_at);
+        return (da > db) ? 1 : -1;
+    }
+
+    getCategorys = () => {
+        let listOfVideos = this.state.listOfVideos;
+        console.log(listOfVideos)
+
+        let sciFiGenre = [];
+        listOfVideos.forEach((video) => {
+            if (video.genres_name.includes('Science-Fiction')) {
+                sciFiGenre.push(video)
+            }
+        });
+
+        let fantasyGenre = [];
+        listOfVideos.forEach((video) => {
+            if (video.genres_name.includes('Fantastique')) {
+                fantasyGenre.push(video)
+            }
+        });
+
+        let horrorGenre = [];
+        listOfVideos.forEach((video) => {
+            if (video.genres_name.includes('Horreur')) {
+                horrorGenre.push(video)
+            }
+        });
+
+        this.setState({ sciFiGenre: sciFiGenre, fantasyGenre: fantasyGenre, horrorGenre: horrorGenre })
+    }
+
     render() {
         const listOfVideos = this.state.listOfVideos.map((item, i) => {
             return (
@@ -100,6 +158,35 @@ class Video extends Component {
                 </Link >
             );
         });
+
+        const getLastTen = this.state.getLastTen.map((item, i) => {
+            return (
+                <Link className="video__category__container__link" to={'/video-detail/' + item.title} key={i} style={{ backgroundImage: "url(" + item.poster_path + ")" }}>
+                </Link >
+            );
+        });
+
+        const getSciFi = this.state.sciFiGenre.map((item, i) => {
+            return (
+                <Link className="video__category__container__link" to={'/video-detail/' + item.title} key={i} style={{ backgroundImage: "url(" + item.poster_path + ")" }}>
+                </Link >
+            );
+        });
+
+        const getFantasy = this.state.fantasyGenre.map((item, i) => {
+            return (
+                <Link className="video__category__container__link" to={'/video-detail/' + item.title} key={i} style={{ backgroundImage: "url(" + item.poster_path + ")" }}>
+                </Link >
+            );
+        });
+
+        const getHorror = this.state.horrorGenre.map((item, i) => {
+            return (
+                <Link className="video__category__container__link" to={'/video-detail/' + item.title} key={i} style={{ backgroundImage: "url(" + item.poster_path + ")" }}>
+                </Link >
+            );
+        });
+
         const searchVideos = this.state.searchVideoResults.map((item, i) => {
             return (
                 <Link className="video__content__video-info" to={'/video-detail/' + item.item.title} key={i}>
@@ -113,45 +200,116 @@ class Video extends Component {
             );
         });
 
+        let content;
+        if (!this.state.showCategory) {
+            content =
+                <div className="video">
+                    {this.state.loadVideosSpinner
+                        ?
+                        <div className="video__loader">
+                            <FontAwesomeIcon
+                                icon="spinner"
+                                spin
+                                size="2x"
+                            />
+                        </div>
+                        :
+                        <div className="video__content">
+                            {this.state.searchActive
+                                ?
+                                <div className="video__content__display">
+                                    {searchVideos}
+                                </div>
+                                :
+                                <div className="video__content__display">
+                                    {listOfVideos}
+                                </div>
+                            }
+                        </div>
+
+                    }
+
+
+
+                </div>
+        } else {
+            content =
+                <div className="video__category">
+                    <div className="video__category__container">
+                        <h2>Derniers ajoutés</h2>
+                        <Carousel
+                            withoutControls
+                            width="100%"
+                            slidesToShow={3.5}
+                            slidesToScroll="auto"
+                        >
+                            {getLastTen}
+                        </Carousel>
+                    </div>
+                    <div className="video__category__container">
+                        <h2>Science Fiction</h2>
+                        <Carousel
+                            withoutControls
+                            width="100%"
+                            slidesToShow={3.5}
+                            slidesToScroll="auto"
+                        >
+                            {getSciFi}
+                        </Carousel>
+                    </div>
+                    <div className="video__category__container">
+                        <h2>Fantastique</h2>
+                        <Carousel
+                            withoutControls
+                            width="100%"
+                            slidesToShow={3.5}
+                            slidesToScroll="auto"
+                        >
+                            {getFantasy}
+                        </Carousel>
+                    </div>
+                    <div className="video__category__container">
+                        <h2>Horreur</h2>
+                        <Carousel
+                            withoutControls
+                            width="100%"
+                            slidesToShow={3.5}
+                            slidesToScroll="auto"
+                        >
+                            {getHorror}
+                        </Carousel>
+                    </div>
+                </div>
+        }
+
         return (
             <div className="video">
-                {this.state.loadVideosSpinner
-                    ?
-                    <div className="video__loader">
-                        <FontAwesomeIcon
-                            icon="spinner"
-                            spin
-                            size="2x"
-                        />
-                    </div>
-                    :
-                    <div className="video__content">
-                        {this.state.searchActive
-                            ?
-                            <div className="video__content__display">
-                                {searchVideos}
-                            </div>
-                            :
-                            <div className="video__content__display">
-                                {listOfVideos}
-                            </div>
-                        }
-                    </div>
-
-                }
-
-
+                {content}
                 <div className="video__searchbar">
                     <div className='video__searchbar__opacity'>
                     </div>
                     <div className='video__searchbar__content'>
-                        <input type="text" id="InputId" autocomplete="off" value={this.state.searchFilm} onChange={this.handleSearchFilmChange} placeholder="Rechercher un film" />
-                        <button className='video__searchbar__content__delete' onClick={this.deleteSearch}>
-                            <FontAwesomeIcon
-                                icon="times-circle"
-                                size="1x"
-                            />
-                        </button>
+                        {!this.state.showCategory &&
+                            <button className='video__searchbar__content__show-category' onClick={this.showCategory}>
+                                <FontAwesomeIcon
+                                    icon="home"
+                                    size="1x"
+                                />
+                            </button>
+                        }
+                        <div className='video__searchbar__content__input'>
+                            <input type="text" id="InputId" autoComplete="off" value={this.state.searchFilm} onChange={this.handleSearchFilmChange} placeholder="Rechercher un film">
+                            </input>
+
+                            {this.state.searchActive &&
+                                <button className='video__searchbar__content__input__delete' onClick={this.deleteSearch}>
+                                    <FontAwesomeIcon
+                                        icon="times-circle"
+                                        size="1x"
+                                    />
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

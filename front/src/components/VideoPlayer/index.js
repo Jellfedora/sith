@@ -68,6 +68,8 @@ class VideoPlayer extends React.Component {
         if (this.refs.vidRef) {
             // Pause as well
             this.refs.vidRef.pause();
+            this.refs.vidRef.removeAttribute('src'); // empty source
+            this.refs.vidRef.load();
             this.setState({ isPlay: false })
         }
     };

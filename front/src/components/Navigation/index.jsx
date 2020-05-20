@@ -39,7 +39,6 @@ class Navigation extends Component {
 
         // Vérifie si des cookies sont existant
         if (this.state.name && this.state.role) {
-            console.log('hey')
             let cookie = {
                 'name': this.state.name,
                 'role': this.state.role

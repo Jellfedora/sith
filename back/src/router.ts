@@ -34,6 +34,7 @@ router.post(`/api/register`, AuthController.register);
 router.delete(`/api/delete/:key`, AuthController.delete);
 
 router.get(`/api/check-films`, VideoController.checkFilms);
+router.get(`/api/check-series`, VideoController.checkSeries);
 router.post(`/api/add-film`, VideoController.addFilm);
 router.get(`/api/all-films`, VideoController.getAllFilms);
 router.get(`/api/one-film/:key`, VideoController.getOneFilm);

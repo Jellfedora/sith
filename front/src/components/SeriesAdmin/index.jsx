@@ -5,7 +5,7 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_REST_API;
 const API_TOKEN = process.env.REACT_APP_TMDB_API_TOKEN;
 
-class Administration extends Component {
+class SeriesAdmin extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,20 +17,19 @@ class Administration extends Component {
             selectedMedia: undefined,
             statusMessage: false,
             statusMessageColor: undefined,
-            searchStatusMessageError: false,
-            tmdbGenres: undefined
+            searchStatusMessageError: false
         };
     }
 
     componentDidMount() {
-        this.getMedia();
+        // this.getMedia();
     }
 
     componentDidUpdate() {
     }
 
     refresh = (event) => {
-        axios.get(apiUrl + 'check-films'
+        axios.get(apiUrl + 'check-series'
         )
             .then(response => {
                 console.log(response)
@@ -78,13 +77,13 @@ class Administration extends Component {
         this.setState({ searchResults: [], showResults: true, statusMessage: false })
         const filmTitle = this.state.filmTitle;
         const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + filmTitle
-        axios.get(url)
+        axios.get(url
+        )
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 response.data.results.map((item, i) => {
                     let filmDetail = {
                         'index': i,
-                        'genre_ids': item.genre_ids,
                         'title': item.title,
                         'overview': item.overview,
                         'poster_path': "https://image.tmdb.org/t/p/w300" + item.poster_path,
@@ -103,39 +102,12 @@ class Administration extends Component {
                 console.log(error)
                 this.setState({ searchStatusMessageError: true })
             });
-
-        axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=' + API_TOKEN + '&language=fr')
-            .then(response => {
-                this.setState({ tmdbGenres: response.data.genres })
-            })
-            .catch(error => {
-                console.log(error)
-            });
     }
 
     selectedFilm = (item) => {
-        // On récupére les genres du film
-        const selectedFilmGenres = item.genre_ids;
-        const genres = this.state.tmdbGenres;
-        const selectedFilmGenresNames = [];
-        genres.forEach((genre) => {
-            if (selectedFilmGenres.indexOf(genre.id) !== -1) {
-                selectedFilmGenresNames.push(genre.name)
-            }
-        })
-        console.log(item)
-
-        const selectedFilm = {
-            title: item.title,
-            poster_path: item.poster_path,
-            release_date: item.release_date,
-            genres_name: selectedFilmGenresNames,
-            overview: item.overview,
-            vote_average: item.vote_average
-        }
-
+        console.log(item.overview)
         // On supprime les précédents résultats
-        this.setState({ searchResults: [], selectedFilm: selectedFilm, showResults: false })
+        this.setState({ searchResults: [], selectedFilm: item, showResults: false })
     }
 
     validSelectedFilm = (event) => {
@@ -204,7 +176,7 @@ class Administration extends Component {
                             </select>
                         </div>
                         <div className="admin-video__content__form__input-search">
-                            <input autocomplete="off" type="text" className="admin-video__content__form__input-search__input" id="InputId" value={this.state.filmTitle} placeholder="Nom du film" onChange={this.handleFilmTitleChange} />
+                            <input type="text" className="admin-video__content__form__input-search__input" id="InputId" value={this.state.filmTitle} placeholder="Nom du film" onChange={this.handleFilmTitleChange} />
                         </div>
 
                         <div className="admin-video__content__form__submit">
@@ -270,9 +242,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         // isConnect: state.user.isConnect,
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Administration);
+export default connect(mapStateToProps, mapDispatchToProps)(SeriesAdmin);
 

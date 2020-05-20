@@ -1,7 +1,7 @@
 import { Schema, model, Document } from 'mongoose';
 
-// on crée une interface pour que Typescript sache ce qu'il y a dans nos documents!
-interface IFilm extends Document {
+
+interface ISerie extends Document {
     title: string,
     overview: string,
     poster_path: string,
@@ -9,13 +9,14 @@ interface IFilm extends Document {
     release_date: string,
     media_name: string,
     verified_by_admin: boolean,
-    genres_name: [],
-    created_at: Date,
-    updated_at: Date
+    seasons: [
+        "season_name",
+        "ep"
+    ]
 }
 
 // definir le schema de données de notre model
-const filmSchema = new Schema({
+const serieSchema = new Schema({
     title: String,
     overview: String,
     poster_path: String,
@@ -23,9 +24,10 @@ const filmSchema = new Schema({
     release_date: String,
     media_name: String,
     verified_by_admin: Boolean,
-    genres_name: Array,
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
+    seasons: [
+        "season_name",
+        "ep"
+    ]
 },
     {
         toObject: { virtuals: true },
@@ -35,7 +37,7 @@ const filmSchema = new Schema({
 
 
 // on laisse mongoose créer tout seul le model à parti du chema (+qqs options)
-const Film = model<IFilm>('Film', filmSchema, 'films');
+const Serie = model<ISerie>('Serie', serieSchema, 'series');
 
 // on exporte  !
-export { Film, IFilm };
+export { Serie, ISerie };

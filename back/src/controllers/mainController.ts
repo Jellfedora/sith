@@ -208,6 +208,7 @@ export default class MainController {
             var readStream;
 
             if (range !== undefined) {
+                console.log(range)
                 var parts = range.replace(/bytes=/, "").split("-");
 
                 var partial_start = parts[0];
@@ -222,16 +223,16 @@ export default class MainController {
                 var content_length = (end - start) + 1;
 
                 response.status(206).header({
-                    // 'Content-Type': 'audio/mpeg',
-                    'Content-Type': 'video/mp4',
+                    'Content-Range': "bytes " + start + "-" + end + "/" + stat.size,
+                    'Accept-Ranges': 'bytes',
                     'Content-Length': content_length,
-                    'Content-Range': "bytes " + start + "-" + end + "/" + stat.size
+                    'Content-Type': 'video/mp4'
                 });
 
                 readStream = fs.createReadStream(video, { start: start, end: end });
             } else {
                 response.header({
-                    'Content-Type': 'audio/mpeg',
+                    'Content-Type': 'video/mp4',
                     'Content-Length': stat.size
                 });
                 readStream = fs.createReadStream(video);
