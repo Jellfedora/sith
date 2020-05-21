@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
 import {
     BrowserRouter as Router,
     Switch,
@@ -29,8 +28,6 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: Cookies.get('name'),
-            role: Cookies.get('role')
         };
     }
 
@@ -38,19 +35,11 @@ class Navigation extends Component {
 
         this.getServerStatus();
 
-        // Vérifie si des cookies sont existant
-        if (this.state.name && this.state.role) {
-            let cookie = {
-                'name': this.state.name,
-                'role': this.state.role
-            }
 
-            const action = { type: "SAVE_USER", value: cookie }
-            this.props.dispatch(action)
-        }
     }
 
     componentDidUpdate() {
+
     }
 
     getServerStatus = () => {
@@ -143,7 +132,8 @@ const mapStateToProps = (state) => {
         serverIsDown: state.server.isStart,
         isConnect: state.user.isConnect,
         userRole: state.user.role,
-        loaderStart: state.animations.loaderStart
+        loaderStart: state.animations.loaderStart,
+        userToken: state.user.token,
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

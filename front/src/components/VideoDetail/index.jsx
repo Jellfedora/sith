@@ -28,7 +28,10 @@ class VideoDetail extends Component {
 
 
     getVideoInfo = (filmTitle) => {
-        axios.get(apiUrl + 'one-film/' + filmTitle
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'one-film/' + filmTitle, config
         )
             .then(response => {
                 let date = new Date;
@@ -102,7 +105,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isStart: state.home.isStart,
+        userToken: state.user.token,
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VideoDetail));

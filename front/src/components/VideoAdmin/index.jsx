@@ -31,7 +31,10 @@ class Administration extends Component {
     }
 
     refresh = (event) => {
-        axios.get(apiUrl + 'check-films'
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'check-films', config
         )
             .then(response => {
                 console.log(response)
@@ -44,7 +47,10 @@ class Administration extends Component {
 
     getMedia = () => {
         this.setState({ medias: [] })
-        axios.get(apiUrl + 'admin-all-films'
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'admin-all-films', config
         )
             .then(response => {
                 response.data.map((item, i) => {
@@ -145,10 +151,14 @@ class Administration extends Component {
         // On envoie les resultats au back
         event.preventDefault();
         console.log(selectedMedia)
-        axios.post(apiUrl + 'add-film', {
+        const headers = {
+            "Authorization": `Bearer ${this.props.userToken}`
+        };
+        const data = {
             film: selectedFilm,
             media_name: selectedMedia
-        })
+        };
+        axios.post(apiUrl + 'add-film', data, { "headers": headers })
             .then(response => {
                 this.setState({ statusMessage: 'Film enregistré', statusMessageColor: 'green' });
             })
@@ -184,14 +194,13 @@ class Administration extends Component {
 
         // Details of the uploaded file 
         console.log(this.state.selectedFile);
-        let config = {
-            headers: {
-                encType: "multipart/form-data",
-            }
-        }
-        axios.post(apiUrl + 'upload-film', formData, {
-            config
-        })
+
+        const headers = {
+            "Authorization": `Bearer ${this.props.userToken}`,
+            "encType": "multipart/form-data",
+        };
+
+        axios.post(apiUrl + 'upload-film', formData, { "headers": headers })
             .then(response => {
                 console.log(response)
             })
@@ -349,7 +358,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isConnect: state.user.isConnect,
+        userToken: state.user.token
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Administration);

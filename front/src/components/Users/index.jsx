@@ -46,11 +46,15 @@ class Users extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state.id + '  ' + this.state.password + '  ' + this.state.role)
-        axios.post(apiUrl + 'register', {
+        const headers = {
+            "Authorization": `Bearer ${this.props.userToken}`
+        };
+        const data = {
             identifiant: this.state.id,
             password: this.state.password,
-            role: this.state.role
-        })
+            role: this.state.role,
+        };
+        axios.post(apiUrl + 'register', data, { "headers": headers })
             .then(response => {
                 console.log(response)
                 this.getUsers();
@@ -62,7 +66,10 @@ class Users extends Component {
     }
 
     getUsers = () => {
-        axios.get(apiUrl + 'get-all-users'
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'get-all-users', config
         )
             .then(response => {
                 console.log(response)
@@ -78,7 +85,10 @@ class Users extends Component {
 
     handleSubmitDeleteUser = (event) => {
         event.preventDefault();
-        axios.delete(apiUrl + 'delete/' + this.state.selectUserToDelete)
+        const headers = {
+            "Authorization": `Bearer ${this.props.userToken}`
+        };
+        axios.delete(apiUrl + 'delete/' + this.state.selectUserToDelete, { "headers": headers })
             .then(response => {
                 console.log(response)
                 this.setState({ userDeleteMessage: response.data, userDeleteColor: 'green' });
@@ -170,7 +180,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     console.log(state);
     return {
-        // isConnect: state.user.isConnect,
+        userToken: state.user.token
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

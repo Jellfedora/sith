@@ -16,11 +16,67 @@ class Authentificator extends Component {
             connexionError: false,
             passwordHidden: true,
             startSpinner: false,
+            name: Cookies.get('name'),
+            role: Cookies.get('role'),
+            token: Cookies.get('token')
 
         };
     }
 
     componentDidMount() {
+
+        // Vérifie si des cookies sont existant
+        if (this.state.name && this.state.role) {
+            const action = { type: "LOADER_START", value: true }
+            this.props.dispatch(action)
+
+            let cookie = {
+                'userName': this.state.name,
+                'userRole': parseInt(this.state.role),
+                'userToken': this.state.token
+            }
+
+            const action2 = { type: "SAVE_USER", value: cookie }
+            this.props.dispatch(action2)
+
+            // Get all movies datas
+            const config = {
+                headers: { Authorization: `Bearer ${this.state.token}` }
+            };
+
+            axios.get(apiUrl + 'all-films', config)
+                .then(response => {
+                    console.log(response)
+                    let listOfVideos = [];
+
+
+                    let titleOfVideos = [];
+                    let movie = []
+                    response.data.map((item, i) => {
+                        let filmDetail = item;
+                        listOfVideos.push(filmDetail);
+
+                        movie = {
+                            'key': item.title.toLowerCase(),
+                            'value': item.title,
+                        }
+                        titleOfVideos.push(movie);
+
+                        // this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, })
+                    })
+                    const action4 = { type: "GET_MOVIES", value: { listOfVideos, titleOfVideos } }
+                    this.props.dispatch(action4)
+
+
+                    const action3 = { type: "LOADER_START", value: false }
+                    this.props.dispatch(action3)
+                })
+                .catch(error => {
+                    console.log(error)
+                    const action3 = { type: "LOADER_START", value: false }
+                    this.props.dispatch(action3)
+                });
+        }
     }
 
     componentDidUpdate() {
@@ -44,9 +100,11 @@ class Authentificator extends Component {
             password: this.state.password
         })
             .then(response => {
+                console.log(response)
                 const action = { type: "SAVE_USER", value: response.data }
-                Cookies.set('name', response.data.name, { expires: 30 })
-                Cookies.set('role', parseInt(response.data.role), { expires: 30 })
+                Cookies.set('name', response.data.userName, { expires: 30 })
+                Cookies.set('role', parseInt(response.data.userRole), { expires: 30 })
+                Cookies.set('token', response.data.userToken, { expires: 30 })
                 this.props.dispatch(action)
                 this.setState({ startSpinner: false });
                 // this.setState({ loadSpinner: false, redirectToAccount: true });

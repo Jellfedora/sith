@@ -42,15 +42,13 @@ class MusicsAdmin extends Component {
 
 
 
-        // Details of the uploaded file 
-        let config = {
-            headers: {
-                encType: "multipart/form-data",
-            }
-        }
-        axios.post(apiUrl + 'upload-song', formData, {
-            config
-        })
+        // Details of the uploaded file
+        const headers = {
+            Authorization: `Bearer ${this.props.userToken}`,
+            encType: "multipart/form-data",
+        };
+
+        axios.post(apiUrl + 'upload-song', formData, { "headers": headers })
             .then(response => {
             })
             .catch(error => {
@@ -109,7 +107,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isConnect: state.user.isConnect,
+        userToken: state.user.token
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MusicsAdmin);

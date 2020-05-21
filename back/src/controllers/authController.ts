@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 var hash = bcrypt.hashSync("B4c0/\/", salt);
-
+const jwt = require('jsonwebtoken');
 dotenv.config();
 
 // import { Pokemon, IPokemon } from '../models/pokemon';
@@ -34,9 +34,21 @@ export default class AuthController {
         // const allUsers: Array<IUser> = await User.find();
         if (getUser) {
             bcrypt.compare(password, getUser.password, function (err, result) {
-                // result == true
-                // console.log(result)
-                return response.status(200).json(getUser);
+                if (result == false) {
+                    return response.status(403).json('Mot de passe incorrect');
+                } else {
+                    // return response.status(200).json(getUser);
+                    response.status(200).json({
+                        userId: getUser.id,
+                        userName: getUser.name,
+                        userRole: getUser.role,
+                        userToken: jwt.sign(
+                            { userId: getUser.id },
+                            'RANDOM_TOKEN_SECRET',
+                            { expiresIn: '24h' }
+                        )
+                    });
+                }
             });
 
         } else {

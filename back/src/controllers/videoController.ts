@@ -236,12 +236,12 @@ export default class VideoController {
 
     // Enregistre un film venant du client
     static async uploadMovie(request: Request, response: Response) {
-        if (!request.files || Object.keys(request.files).length === 0) {
+        if (!request['files'] || Object.keys(request['files']).length === 0) {
             return response.status(400).send('No files were uploaded.');
         }
 
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-        let sampleFile = request.files.myFile;
+        let sampleFile = request['files'].myFile;
         console.log(sampleFile)
 
         // Use the mv() method to place the file somewhere on your server

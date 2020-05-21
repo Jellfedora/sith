@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 // import defaultCover from '../../ressources/images/default-cover.jpg';
 const apiUrl = process.env.REACT_APP_REST_API;
-
 let audio = null;
 
 class Music extends Component {
@@ -135,7 +134,10 @@ class Music extends Component {
     }
 
     openFolder(selectedFolder) {
-        axios.get(apiUrl + 'get-folder-songs/' + selectedFolder
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'get-folder-songs/' + selectedFolder, config
         )
             .then(response => {
                 this.setState({
@@ -151,7 +153,10 @@ class Music extends Component {
     }
 
     getAllFolders = () => {
-        axios.get(apiUrl + 'music/folder'
+        const config = {
+            headers: { Authorization: `Bearer ${this.props.userToken}` }
+        };
+        axios.get(apiUrl + 'music/folder', config
         )
             .then(response => {
                 this.setState({ listOfFolders: response.data })
@@ -298,6 +303,12 @@ class Music extends Component {
                     </div>
                 ) : (
                         <div className="music__list">
+                            <span className="video-detail__link-to-home" onClick={() => this.setState({ showMusicFolder: true })}>
+                                <FontAwesomeIcon
+                                    icon="arrow-left"
+                                    size="1x"
+                                />
+                            </span>
                             {/* TODO Ajouter titre */}
                             {listOfSongs}
                         </div>
@@ -341,11 +352,11 @@ class Music extends Component {
                                 />
                                 <span className="music__player__timer__song-options__reload-button__reload-song-span">all</span>
                             </button>
-                            <button className={"music__player__timer__song-options__cast-button "} onClick={() => this.setState({ showMusicFolder: true })}>
+                            {/* <button className={"music__player__timer__song-options__cast-button "} onClick={() => this.setState({ showMusicFolder: true })}>
                                 <FontAwesomeIcon
                                     icon={['fab', 'chromecast']}
                                 />
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 
@@ -435,7 +446,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isStart: state.home.isStart,
+        userToken: state.user.token
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Music);
