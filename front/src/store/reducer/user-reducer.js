@@ -10,7 +10,6 @@ function userReducer(state = initialState, action) {
     let nextState
     switch (action.type) {
         case 'SAVE_USER':
-            console.log(action.value)
             nextState = {
                 ...state,
                 isConnect: true,

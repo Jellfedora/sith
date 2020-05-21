@@ -84,13 +84,11 @@ class Authentificator extends Component {
 
     getAllFilms = (token) => {
         // Get all movies datas
-        console.log(token)
         const config = {
             headers: { Authorization: `Bearer ${token}` }
         };
         axios.get(apiUrl + 'all-films', config)
             .then(response => {
-                console.log(response)
                 let listOfVideos = [];
 
 
