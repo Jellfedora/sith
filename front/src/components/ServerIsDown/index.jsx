@@ -17,8 +17,6 @@ class ServerIsDown extends Component {
     }
 
     componentDidUpdate() {
-        console.log('navigation')
-        // this.getServerStatus();
     }
 
     getServerStatus = () => {

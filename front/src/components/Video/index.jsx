@@ -18,7 +18,6 @@ class Video extends Component {
             titleOfVideos: [],
             searchVideoResults: [],
             searchActive: false,
-            loadVideosSpinner: false,
             showCategory: true,
             getLastTen: [],
             sciFiGenre: [],
@@ -28,6 +27,8 @@ class Video extends Component {
     }
 
     componentDidMount() {
+        const action = { type: "LOADER_START", value: true }
+        this.props.dispatch(action)
         // Get all videos
         this.getVideos();
     }
@@ -37,7 +38,7 @@ class Video extends Component {
 
 
     getVideos = () => {
-        this.setState({ loadVideosSpinner: true })
+
         axios.get(apiUrl + 'all-films'
         )
             .then(response => {
@@ -58,13 +59,16 @@ class Video extends Component {
 
                     titleOfVideos.push(test);
 
-                    this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, loadVideosSpinner: false })
                 })
+                this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, })
                 this.getLastTen();
                 this.getCategorys();
+                const action = { type: "LOADER_START", value: false }
+                this.props.dispatch(action)
             })
             .catch(error => {
-                this.setState({ loadVideosSpinner: false })
+                const action = { type: "LOADER_START", value: false }
+                this.props.dispatch(action)
             });
     }
 
@@ -97,6 +101,10 @@ class Video extends Component {
         this.setState({ showCategory: true, searchFilm: '' })
     }
 
+    hideCategory = () => {
+        this.setState({ showCategory: false, searchFilm: '' })
+    }
+
     getLastTen = () => {
         let listOfVideos = this.state.listOfVideos;
 
@@ -119,7 +127,6 @@ class Video extends Component {
 
     getCategorys = () => {
         let listOfVideos = this.state.listOfVideos;
-        console.log(listOfVideos)
 
         let sciFiGenre = [];
         listOfVideos.forEach((video) => {
@@ -204,33 +211,18 @@ class Video extends Component {
         if (!this.state.showCategory) {
             content =
                 <div className="video">
-                    {this.state.loadVideosSpinner
-                        ?
-                        <div className="video__loader">
-                            <FontAwesomeIcon
-                                icon="spinner"
-                                spin
-                                size="2x"
-                            />
-                        </div>
-                        :
-                        <div className="video__content">
-                            {this.state.searchActive
-                                ?
-                                <div className="video__content__display">
-                                    {searchVideos}
-                                </div>
-                                :
-                                <div className="video__content__display">
-                                    {listOfVideos}
-                                </div>
-                            }
-                        </div>
-
-                    }
-
-
-
+                    <div className="video__content">
+                        {this.state.searchActive
+                            ?
+                            <div className="video__content__display">
+                                {searchVideos}
+                            </div>
+                            :
+                            <div className="video__content__display">
+                                {listOfVideos}
+                            </div>
+                        }
+                    </div>
                 </div>
         } else {
             content =
@@ -285,18 +277,17 @@ class Video extends Component {
         return (
             <div className="video">
                 {content}
-                <div className="video__searchbar">
+                < div className="video__searchbar">
                     <div className='video__searchbar__opacity'>
                     </div>
                     <div className='video__searchbar__content'>
-                        {!this.state.showCategory &&
-                            <button className='video__searchbar__content__show-category' onClick={this.showCategory}>
-                                <FontAwesomeIcon
-                                    icon="home"
-                                    size="1x"
-                                />
-                            </button>
-                        }
+                        <button className='video__searchbar__content__show-category' onClick={this.showCategory}>
+                            <FontAwesomeIcon
+                                icon="home"
+                                size="1x"
+                            />
+                            <small>Catégories</small>
+                        </button>
                         <div className='video__searchbar__content__input'>
                             <input type="text" id="InputId" autoComplete="off" value={this.state.searchFilm} onChange={this.handleSearchFilmChange} placeholder="Rechercher un film">
                             </input>
@@ -310,9 +301,16 @@ class Video extends Component {
                                 </button>
                             }
                         </div>
+                        <button className='video__searchbar__content__show-category' onClick={this.hideCategory}>
+                            <FontAwesomeIcon
+                                icon="border-all"
+                                size="1x"
+                            />
+                            <small>Tous</small>
+                        </button>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }

@@ -1,76 +1,103 @@
 .video-detail {
-
-
-    overflow: scroll;
+    // overflow: scroll;
     height: 100%;
-    padding-top: 3.5em;
+    padding-top: 2.5em;
+
+    &__link-to-home {
+        position: fixed;
+        top: 1em;
+        left: 1em;
+        color: $color-white;
+        z-index: 10;
+    }
+
+    &__link-to-home:hover {
+        color: $color-red;
+    }
 
     &__content {
 
-        &__img {
-            margin: 0 auto;
-            display: block;
+        &__poster {
             // width: 100%;
-            height: 40vh;
+            // max-height: 70vh;
+
+            & img {
+                // display: block;
+                height: 100%;
+                width: 100%;
+            }
+
+            &__play {
+                position: relative;
+                width: 100%;
+                text-align: center;
+                bottom: 17em;
+                color: $color-white;
+                display: block;
+                height: 0em;
+
+                &__background {
+                    margin: 0 auto;
+                    content: '';
+                    background-color: $color-dark;
+                    opacity: 0.6;
+                    border-radius: 50%;
+                    padding: 0.8em;
+                    border: 2px solid $color-white;
+                    width: 2em;
+                    height: 2em;
+                }
+
+                &__icon {
+                    position: relative;
+                    bottom: 3em;
+                    left: 0.2em;
+                    transition-duration: 1s;
+                }
+
+
+                &__icon:hover {
+                    color: $color-grey;
+                }
+            }
         }
+
 
         &__text {
             padding: 1em;
 
             &__title {
                 display: block;
-                margin: 1em auto;
+                margin: 1em auto 0.5em auto;
                 font-size: 1.2em;
+                font-weight: bold;
             }
 
-            &__overview {}
-
+            &__release,
             &__vote {
                 display: block;
                 margin-top: 1em;
+                font-size: 0.8em;
+
+                & span {
+                    font-weight: bold;
+                }
             }
         }
     }
 }
 
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
     .video-detail {
         &__content {
+            padding: 2.5em;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 100%;
-            margin: 2em auto;
-            padding-top: 5em;
-
-            &__img {
-                height: 20em;
-                width: 20em;
-            }
+            justify-content: space-around;
 
             &__text {
-                padding: 1em;
-
-                &__title {
-                    display: block;
-                    margin: 1em auto;
-                    font-size: 1.2em;
-                }
-
-                &__overview {}
-
-                &__vote {
-                    display: block;
-                    margin-top: 1em;
-                }
-            }
-
-            &__player {
-                width: 100%;
+                width: 40%;
             }
         }
-
-
     }
 }

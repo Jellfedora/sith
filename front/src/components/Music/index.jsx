@@ -138,7 +138,6 @@ class Music extends Component {
         axios.get(apiUrl + 'get-folder-songs/' + selectedFolder
         )
             .then(response => {
-                console.log(response.data)
                 this.setState({
                     listOfSongs: response.data.repertorySongs,
                     repertoryImg: response.data.repertoryImg,
@@ -155,7 +154,6 @@ class Music extends Component {
         axios.get(apiUrl + 'music/folder'
         )
             .then(response => {
-                console.log(response)
                 this.setState({ listOfFolders: response.data })
             })
             .catch(error => {
@@ -167,7 +165,6 @@ class Music extends Component {
         axios.get(apiUrl + 'get-all-songs/'
         )
             .then(response => {
-                console.log(response)
                 this.setState({ listOfSongs: response.data.repertorySongs, repertoryImg: response.data.repertoryImg })
             })
             .catch(error => {

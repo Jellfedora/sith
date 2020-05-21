@@ -44,7 +44,6 @@ class Authentificator extends Component {
             password: this.state.password
         })
             .then(response => {
-                console.log(response)
                 const action = { type: "SAVE_USER", value: response.data }
                 Cookies.set('name', response.data.name, { expires: 30 })
                 Cookies.set('role', parseInt(response.data.role), { expires: 30 })

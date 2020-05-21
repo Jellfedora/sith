@@ -1,16 +1,19 @@
 import React, { Component, useCallback } from 'react';
 import { connect } from 'react-redux';
+import {
+    Link
+} from "react-router-dom";
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import VideoPlayer from '../VideoPlayer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const apiUrl = process.env.REACT_APP_REST_API;
-
 class VideoDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectVideo: null,
-            videoIsPlay: false
+            showVideo: false
         };
     }
 
@@ -45,23 +48,47 @@ class VideoDetail extends Component {
             });
     }
 
+    showVideo = () => {
+        this.setState({ showVideo: true })
+    }
+
     render() {
         const item = this.state.selectVideo;
         return (
             <div className="video-detail">
+                <Link className="video-detail__link-to-home" to="/video">
+                    <FontAwesomeIcon
+                        icon="arrow-left"
+                        size="1x"
+                    />
+                </Link>
                 {item &&
                     <div className="video-detail__content">
-                        <img src={item.poster_path} alt="film-poster" className="video-detail__content__img" />
+                        <div className="video-detail__content__poster">
+                            <img src={item.poster_path} alt="film-poster" className="video-detail__content__poster__img" />
+                            <div className="video-detail__content__poster__play">
+                                <div className="video-detail__content__poster__play__background"></div>
+                                <span className="video-detail__content__poster__play__icon" onClick={this.showVideo}>
+                                    <FontAwesomeIcon
+                                        icon="play"
+                                        size="2x"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+
                         <div className="video-detail__content__text">
                             <h2 className="video-detail__content__text__title">{item.title}</h2>
                             <p className="video-detail__content__text__overview">{item.overview}</p>
-                            <span className="video-detail__content__text__vote">Note Tmdb: {item.vote_average} / 10</span>
-                            <span className="video-detail__content__text__vote">Sortie: {item.release_date}</span>
-                        </div>
-                        <div className="video-detail__player">
-                            <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} />
+                            <span className="video-detail__content__text__vote"><span>Note Tmdb:</span> {item.vote_average} / 10</span>
+                            <span className="video-detail__content__text__release"><span>Sortie:</span> {item.release_date}</span>
                         </div>
                     </div >
+                }
+                {this.state.showVideo &&
+                    <div className="video-detail__player">
+                        <VideoPlayer mediaTitle={apiUrl + "video/" + item.media_name} />
+                    </div>
                 }
             </div >
         );

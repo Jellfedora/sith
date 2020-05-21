@@ -49,7 +49,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         // isConnect: state.user.isConnect,
     }

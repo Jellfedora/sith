@@ -21,7 +21,6 @@ class Series extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.state.listOfSeries)
     }
 
     getSeries = () => {

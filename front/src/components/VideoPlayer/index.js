@@ -1,19 +1,20 @@
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from 'js-cookie';
 class VideoPlayer extends React.Component {
     constructor(props) {
         super(props);
+        this.myVideo = React.createRef();
         this.state = {
             video: null,
             isPlay: true,
             duration: "0:00",
-            currentTime: "0:00"
+            currentTime: "0:00",
         };
     }
     componentDidMount = () => {
         this.setState({ video: document.getElementById('video-player') })
-
+        this.toggleFullScreen()
     };
 
     componentDidUpdate = () => {
@@ -23,18 +24,28 @@ class VideoPlayer extends React.Component {
             this.getDuration()
         }
         this.state.video.onplay = () => {
-            console.log('hey')
             this.setState({ isPlay: true })
         }
         this.state.video.onpause = () => {
-            console.log('pause')
             this.setState({ isPlay: false })
         }
+
+
+        // this.state.video.currentTime = this.state.currentTimeCookie['currentime'];
     }
 
     componentWillUnmount = () => {
         this.pauseVideo();
     };
+
+
+    setCookie = () => {
+        if (this.state.video) {
+
+        }
+    }
+
+
 
     getCurrentTime = () => {
         let currentTime = this.convertSeconds(this.state.video.currentTime)
@@ -43,7 +54,6 @@ class VideoPlayer extends React.Component {
 
     getDuration() {
         let duration = this.convertSeconds(this.state.video.duration)
-        // let duration = Math.floor(this.state.video.duration / 60) + ':' + ('0' + Math.floor(this.state.video.duration % 60)).slice(-2);
         this.setState({ duration: duration })
     }
 
@@ -62,6 +72,7 @@ class VideoPlayer extends React.Component {
     playVideo = () => {
         this.refs.vidRef.play();
         this.setState({ isPlay: true })
+
     };
 
     pauseVideo = () => {
@@ -75,14 +86,14 @@ class VideoPlayer extends React.Component {
     };
 
     toggleFullScreen = () => {
-        if (this.refs.vidRef.requestFullscreen) {
-            this.refs.vidRef.requestFullscreen();
-        } else if (this.refs.vidRef.msRequestFullscreen) {
-            this.refs.vidRef.msRequestFullscreen();
-        } else if (this.refs.vidRef.mozRequestFullScreen) {
-            this.refs.vidRef.mozRequestFullScreen();
-        } else if (this.refs.vidRef.webkitRequestFullscreen) {
-            this.refs.vidRef.webkitRequestFullscreen();
+        if (this.myVideo.current.requestFullscreen) {
+            this.myVideo.current.requestFullscreen();
+        } else if (this.myVideo.current.msRequestFullscreen) {
+            this.myVideo.current.msRequestFullscreen();
+        } else if (this.myVideo.current.mozRequestFullScreen) {
+            this.myVideo.current.mozRequestFullScreen();
+        } else if (this.myVideo.current.webkitRequestFullscreen) {
+            this.myVideo.current.webkitRequestFullscreen();
         }
     };
 
@@ -94,11 +105,11 @@ class VideoPlayer extends React.Component {
                     autoPlay
                     controls
                     className="video-player__screen"
-                    ref="vidRef"
+                    ref={this.myVideo}
                     src={this.props.mediaTitle}
                     type="video/mp4"
                 />
-                <div className="video-player__controls">
+                {/* <div className="video-player__controls">
                     {this.state.isPlay
                         ?
                         <button onClick={this.pauseVideo} className="video-player__controls__buttons">
@@ -127,7 +138,7 @@ class VideoPlayer extends React.Component {
                             size="1x"
                         />
                     </button>
-                </div>
+                </div> */}
 
 
 

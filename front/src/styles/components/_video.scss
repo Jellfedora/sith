@@ -2,15 +2,6 @@
     margin-top: 3.5em;
     color: $color-white;
 
-    &__loader {
-        width: 100%;
-        height: 90%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: fixed;
-    }
-
     &__content {
 
         &__display {
@@ -107,6 +98,7 @@
                     border: none;
                     background-color: transparent;
                     color: $color-red;
+                    width: 0;
                 }
 
                 & input {
@@ -124,6 +116,17 @@
                 color: $color-white;
                 background-color: transparent;
                 border: none;
+
+                & small {
+                    display: block;
+                    position: relative;
+                    // top: 1em;
+                    font-size: 0.6em;
+                }
+            }
+
+            &__show-category:hover {
+                color: $color-red;
             }
         }
     }

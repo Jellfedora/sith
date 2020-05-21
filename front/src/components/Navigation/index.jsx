@@ -21,6 +21,7 @@ import MusicsAdmin from '../MusicsAdmin';
 import Users from '../Users';
 import Series from '../Series';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const apiUrl = process.env.REACT_APP_REST_API;
 
@@ -36,7 +37,6 @@ class Navigation extends Component {
     componentDidMount() {
 
         this.getServerStatus();
-        console.log(this.state)
 
         // Vérifie si des cookies sont existant
         if (this.state.name && this.state.role) {
@@ -117,6 +117,15 @@ class Navigation extends Component {
                             <span>By Jellfedora</span>
                         </Link>
                     </div>
+                    {this.props.loaderStart &&
+                        <div className="loader">
+                            <FontAwesomeIcon
+                                icon="spinner"
+                                spin
+                                size="2x"
+                            />
+                        </div>
+                    }
                     {render}
 
                 </Router >
@@ -134,6 +143,7 @@ const mapStateToProps = (state) => {
         serverIsDown: state.server.isStart,
         isConnect: state.user.isConnect,
         userRole: state.user.role,
+        loaderStart: state.animations.loaderStart
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

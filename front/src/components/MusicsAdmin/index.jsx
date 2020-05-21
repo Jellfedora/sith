@@ -43,7 +43,6 @@ class MusicsAdmin extends Component {
 
 
         // Details of the uploaded file 
-        console.log(this.state.selectedFile);
         let config = {
             headers: {
                 encType: "multipart/form-data",
@@ -53,7 +52,6 @@ class MusicsAdmin extends Component {
             config
         })
             .then(response => {
-                console.log(response)
             })
             .catch(error => {
                 console.log(error)
