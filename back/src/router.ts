@@ -30,7 +30,7 @@ router.get(`/api/get-folder-videos`, auth, MainController.getFolderVideos);
 router.get(`/api/video/:key`, MainController.getVideoStreaming);
 
 router.get(`/api/get-all-users`, auth, AuthController.getAllUsers);
-router.post(`/api/login`, auth, AuthController.login);
+router.post(`/api/login`, AuthController.login);
 router.post(`/api/register`, auth, AuthController.register);
 router.delete(`/api/delete/:key`, auth, AuthController.delete);
 

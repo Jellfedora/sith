@@ -7,7 +7,6 @@ function movieReducer(state = initialState, action) {
     let nextState
     switch (action.type) {
         case 'GET_MOVIES':
-            console.log(action.value.listOfVideos)
             nextState = {
                 ...state,
                 listOfVideos: action.value.listOfVideos,

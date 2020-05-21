@@ -11,6 +11,7 @@ class Authentificator extends Component {
         this.state = {
             id: '',
             password: '',
+            tokenNotCookie: '',
             validId: null,
             validPassword: null,
             connexionError: false,
@@ -39,43 +40,7 @@ class Authentificator extends Component {
             const action2 = { type: "SAVE_USER", value: cookie }
             this.props.dispatch(action2)
 
-            // Get all movies datas
-            const config = {
-                headers: { Authorization: `Bearer ${this.state.token}` }
-            };
-
-            axios.get(apiUrl + 'all-films', config)
-                .then(response => {
-                    console.log(response)
-                    let listOfVideos = [];
-
-
-                    let titleOfVideos = [];
-                    let movie = []
-                    response.data.map((item, i) => {
-                        let filmDetail = item;
-                        listOfVideos.push(filmDetail);
-
-                        movie = {
-                            'key': item.title.toLowerCase(),
-                            'value': item.title,
-                        }
-                        titleOfVideos.push(movie);
-
-                        // this.setState({ listOfVideos: listOfVideos, titleOfVideos: titleOfVideos, })
-                    })
-                    const action4 = { type: "GET_MOVIES", value: { listOfVideos, titleOfVideos } }
-                    this.props.dispatch(action4)
-
-
-                    const action3 = { type: "LOADER_START", value: false }
-                    this.props.dispatch(action3)
-                })
-                .catch(error => {
-                    console.log(error)
-                    const action3 = { type: "LOADER_START", value: false }
-                    this.props.dispatch(action3)
-                });
+            this.getAllFilms(this.state.token)
         }
     }
 
@@ -94,6 +59,8 @@ class Authentificator extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        const action = { type: "LOADER_START", value: true }
+        this.props.dispatch(action)
         this.setState({ startSpinner: true });
         axios.post(apiUrl + 'login', {
             identifiant: this.state.id,
@@ -106,12 +73,50 @@ class Authentificator extends Component {
                 Cookies.set('role', parseInt(response.data.userRole), { expires: 30 })
                 Cookies.set('token', response.data.userToken, { expires: 30 })
                 this.props.dispatch(action)
-                this.setState({ startSpinner: false });
-                // this.setState({ loadSpinner: false, redirectToAccount: true });
+                this.setState({ startSpinner: false, tokenNotCookie: response.data.userToken });
+                this.getAllFilms(response.data.userToken);
             })
             .catch(error => {
                 console.log(error)
                 this.setState({ connexionError: true, startSpinner: false });
+            });
+    }
+
+    getAllFilms = (token) => {
+        // Get all movies datas
+        console.log(token)
+        const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+        axios.get(apiUrl + 'all-films', config)
+            .then(response => {
+                console.log(response)
+                let listOfVideos = [];
+
+
+                let titleOfVideos = [];
+                let movie = []
+                response.data.map((item, i) => {
+                    let filmDetail = item;
+                    listOfVideos.push(filmDetail);
+
+                    movie = {
+                        'key': item.title.toLowerCase(),
+                        'value': item.title,
+                    }
+                    titleOfVideos.push(movie);
+                })
+                const action4 = { type: "GET_MOVIES", value: { listOfVideos, titleOfVideos } }
+                this.props.dispatch(action4)
+
+
+                const action3 = { type: "LOADER_START", value: false }
+                this.props.dispatch(action3)
+            })
+            .catch(error => {
+                console.log(error)
+                const action3 = { type: "LOADER_START", value: false }
+                this.props.dispatch(action3)
             });
     }
 
@@ -176,7 +181,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 const mapStateToProps = (state) => {
     return {
-        // isConnect: state.user.isConnect,
+        token: state.user.token,
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Authentificator);

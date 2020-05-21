@@ -14,9 +14,7 @@ class Video extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // listOfVideos: [],
             searchInlistOfVideos: [],
-            // titleOfVideos: [],
             searchVideoResults: [],
             searchActive: false,
             showCategory: true,

@@ -4,11 +4,15 @@ import express from 'express';
 import router from "./router";
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+
 const fileUpload = require('express-fileupload');
 const app: express.Express = express();
+
 const PORT = process.env.PORT || 3001;
 const PROD_ADRESS = process.env.PROD_ADRESS
 var cors = require('cors')
+
+
 // setup view engine
 app.set('views', 'views');
 app.set('view engine', 'pug');
@@ -59,6 +63,27 @@ mongoose.connect(process.env.MONGODB_URI, {
         });
     });
 
-// app.listen(PORT, () => {
-//     console.log(`App running on port ${PORT}`);
-// });
+
+// Test socket
+var http = require('http');
+var fs = require('fs');
+
+// Chargement du fichier index.html affiché au client
+var server = http.createServer(function (req, res) {
+    fs.readFile('./index.html', 'utf-8', function (error, content) {
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(content);
+    });
+});
+
+// Chargement de socket.io
+var io = require('socket.io').listen(server);
+
+// Quand un client se connecte, on le note dans la console
+io.sockets.on('connection', function (socket) {
+    console.log('Un client est connecté !');
+    socket.emit('message', 'Serveur connecté');
+});
+
+
+server.listen(3003);
