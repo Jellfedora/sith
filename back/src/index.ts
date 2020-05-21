@@ -69,19 +69,12 @@ var http = require('http');
 var fs = require('fs');
 
 // Chargement du fichier index.html affiché au client
-var server = http.createServer(function (req, res, origin, callback) {
+var server = http.createServer(function (req, res) {
+    res.setHeader('Access-Control-Allow-Headers', req.header.origin);
     fs.readFile('./index.html', 'utf-8', function (error, content) {
         res.writeHead(200, { "Content-Type": "text/html" });
         res.end(content);
     });
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-        var msg = 'The CORS policy for this site does not ' +
-            'allow access from the specified Origin.';
-        // return callback(new Error(msg), false); TODO
-        return callback(null, true);
-    }
-    return callback(null, true);
 });
 
 
