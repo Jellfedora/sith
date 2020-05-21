@@ -1,21 +1,12 @@
-import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 const socketAdress = 'http://localhost:3003';
-
-// export const Websocket = () => {
-//     var socket = io.connect(socketAdress);
-//     socket.on('message', function (message) {
-//         console.log(message);
-//         useDispatch({ type: "SERVER_IS_START" }, true)
-//     })
-// }
+const apisocketAdress = process.env.REACT_APP_REST_API_SOCKET_ADRESS;
 
 const Websocket = () => {
 
     const dispatch = useDispatch()
-    var socket = require('socket.io-client')(socketAdress);
+    var socket = require('socket.io-client')(apisocketAdress);
 
     socket.on('message', function (message) {
         dispatch({ type: "LOADER_START", value: false })
