@@ -19,6 +19,7 @@ app.set('view engine', 'pug');
 
 // Autoriser cors
 var allowedOrigins = ['http://localhost:3000', PROD_ADRESS];
+
 app.use(cors({
     origin: function (origin, callback) {
         // allow requests with no origin 
@@ -105,7 +106,9 @@ var fs = require('fs');
 
 
 
-var server = app.listen(3003);
+var server = app.listen(3003, () => {
+    console.log(`App Socket running on port ${3003}`);
+});
 
 
 // Chargement de socket.io
