@@ -1,11 +1,11 @@
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
-const socketAdress = 'http://localhost:3003';
 const apisocketAdress = process.env.REACT_APP_REST_API_SOCKET_ADRESS;
-
+// const apisocketAdress = "https://sith-api.hopto.org/sockets/";
 const Websocket = () => {
 
     const dispatch = useDispatch()
+    console.log(apisocketAdress)
     var socket = require('socket.io-client')(apisocketAdress);
 
     socket.on('message', function (message) {

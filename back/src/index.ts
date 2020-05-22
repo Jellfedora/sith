@@ -69,24 +69,54 @@ var http = require('http');
 var fs = require('fs');
 
 // Chargement du fichier index.html affiché au client
-var server = http.createServer(function (req, res) {
-    res.setHeader('Access-Control-Allow-Headers', req.header.origin);
-    fs.readFile('./index.html', 'utf-8', function (error, content) {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(content);
-    });
-});
+// var server = http.createServer(function (req, res, origin, callback) {
+//     fs.readFile('./index.html', 'utf-8', function (error, content) {
+//         res.writeHead(200, { "Content-Type": "text/html" });
+//         res.end(content);
+//     });
+//     if (!origin) return callback(null, true);
+//     if (allowedOrigins.indexOf(origin) === -1) {
+//         var msg = 'The CORS policy for this site does not ' +
+//             'allow access from the specified Origin.';
+//         // return callback(new Error(msg), false); TODO
+//         return callback(null, true);
+//     }
+//     return callback(null, true);
+// });
 
+
+
+// // Chargement de socket.io
+// var io = require('socket.io').listen(app);
+
+// // Quand un client se connecte, on le note dans la console
+// io.sockets.on('connection', function (socket) {
+//     console.log('Un client est connecté !');
+//     socket.emit('message', 'Serveur connecté');
+// });
+
+
+// server.listen(3003);
+
+
+
+
+
+
+
+
+var server = app.listen(3003);
 
 
 // Chargement de socket.io
 var io = require('socket.io').listen(server);
+
 io.set('origins', '*:*');
+// server.use(cors())
+// server.options('*', cors());
 // Quand un client se connecte, on le note dans la console
 io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
     socket.emit('message', 'Serveur connecté');
 });
 
-
-server.listen(3003);
