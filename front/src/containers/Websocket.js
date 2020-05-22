@@ -5,9 +5,9 @@ const apisocketAdress = process.env.REACT_APP_REST_API_SOCKET_ADRESS;
 const Websocket = () => {
 
     const dispatch = useDispatch()
-    console.log(apisocketAdress)
-    var socket = require('socket.io-client')(apisocketAdress);
-
+    console.log("https://sith-api.hopto.org/sockets")
+    // var socket = require('socket.io-client')(apisocketAdress);
+    var socket = io("https://sith-api.hopto.org/sockets", { transport: ['websocket'] });
     socket.on('message', function (message) {
         dispatch({ type: "LOADER_START", value: false })
         dispatch({ type: "SERVER_IS_START", value: true })

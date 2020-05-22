@@ -115,6 +115,7 @@ var server = app.listen(3003, () => {
 var io = require('socket.io').listen(server);
 
 io.set('origins', '*:*');
+io.origins('*:*')
 // server.use(cors())
 // server.options('*', cors());
 // Quand un client se connecte, on le note dans la console
