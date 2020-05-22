@@ -6,8 +6,14 @@ const Websocket = () => {
 
     const dispatch = useDispatch()
     console.log("https://sith-api.hopto.org/sockets")
+    var connectionOptions = {
+        "force new connection": true,
+        "reconnectionAttemps": "Infinity",
+        "timeout": 10000,
+        "transports": ["websocket"]
+    }
     // var socket = require('socket.io-client')(apisocketAdress);
-    var socket = io("https://sith-api.hopto.org/sockets", { transport: ['websocket'] });
+    var socket = io(apisocketAdress, connectionOptions);
     socket.on('message', function (message) {
         dispatch({ type: "LOADER_START", value: false })
         dispatch({ type: "SERVER_IS_START", value: true })

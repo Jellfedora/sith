@@ -110,11 +110,13 @@ var server = app.listen(3003, () => {
     console.log(`App Socket running on port ${3003}`);
 });
 
-
 // Chargement de socket.io
 var io = require('socket.io').listen(server);
 
+// io.set('transport',['websocket']);
+
 io.set('origins', '*:*');
+
 io.origins('*:*')
 // server.use(cors())
 // server.options('*', cors());
