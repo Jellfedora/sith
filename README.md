@@ -1,5 +1,5 @@
 # sith
-Simple Interface Tools Hardware
+Personal Streaming Interface
 
 ## Dev
 ### run MongoDB
